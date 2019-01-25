@@ -15,7 +15,6 @@ namespace BlackOps2SoundStudio.Format
         public int SizeOfDependencyEntry { get; set; }
         public List<SndAssetBankEntry> Entries { get; set; }
         public List<byte[]> Checksums { get; set; }
-        public long Unknown { get; set; }
         public long Length { get; set; }
         public long OffsetOfEntries { get; set; }
         public long OffsetOfChecksums { get; set; }

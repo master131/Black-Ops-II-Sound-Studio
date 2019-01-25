@@ -23,9 +23,14 @@ namespace BlackOps2SoundStudio.Format
                     entry.Data.Cache();
             }
 
+            // Calculate asset reference count
+            var assetReferenceCount = 0L;
+            for (assetReferenceCount = 0; assetReferenceCount < _sndAliasBank.AssetReferences.Length; assetReferenceCount++)
+                if (_sndAliasBank.AssetReferences[assetReferenceCount] == null)
+                    break;
+
             // Write the header.
             stream.SetLength(0);
-
             var writer = new BinaryWriter(stream);
             writer.Write(_sndAliasBank.Magic);
             writer.Write(_sndAliasBank.Version);
@@ -33,7 +38,7 @@ namespace BlackOps2SoundStudio.Format
             writer.Write(_sndAliasBank.SizeOfChecksumEntry);
             writer.Write(_sndAliasBank.SizeOfDependencyEntry);
             writer.Write(_sndAliasBank.Entries.Count);
-            writer.Write(_sndAliasBank.Unknown);
+            writer.Write(assetReferenceCount);
             var lengthAndOffsetsPosition = stream.Position;
             writer.Write(_sndAliasBank.Length);
             writer.Write(_sndAliasBank.OffsetOfEntries);
@@ -43,7 +48,7 @@ namespace BlackOps2SoundStudio.Format
             // Write the asset references.
             for (int i = 0; i < _sndAliasBank.AssetReferences.Length; i++)
             {
-                var value = _sndAliasBank.AssetReferences[i];
+                var value = _sndAliasBank.AssetReferences[i] ?? string.Empty;
                 
                 // Truncate the reference name if required.
                 if (value.Length > _sndAliasBank.SizeOfDependencyEntry)
