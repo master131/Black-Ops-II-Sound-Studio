@@ -136,7 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Names.deflate" />
-    <None Include="Resources\Names.xml" />
+    <None Include="Resources\Names.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="sound-studio.ico" />
