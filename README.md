@@ -16,6 +16,14 @@ Allows for playback and editing of SABS/SABL files for Black Ops II/III.
 * Export audio entries
 * Built-in audio player that can play formats natively without extra codecs
 
+## Limitations:
+* Known limitations/problems:
+* Audio replacement of XMA audio entries are currently not supported as an encoder hasn't been added yet.
+* Audio replacement for PS3 is not tested.
+* Replacing headerless WAV audio with your own that is 1 second or more longer than the original will result in SP missions loading forever (same might happen with MP, not tested)
+* Backups are not created, it's up to the user to do that themselves.
+* Editing the asset references list actually does nothing when saved to disk.
+
 ## Legal:
 This software uses a compiled/command-line version of [FFmpeg](http://ffmpeg.org/) licensed under GPLv3 built by Kyle Schwarz/Zeranoe which can be downloaded here along with the original source code.
 
