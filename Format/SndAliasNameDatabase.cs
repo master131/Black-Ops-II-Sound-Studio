@@ -28,19 +28,15 @@ namespace BlackOps2SoundStudio.Format
 
         static SndAliasNameDatabase()
         {
-            byte[] names;
+            XDocument document;
             using (var ms = new MemoryStream(Resources.Names))
             using (var deflate = new DeflateStream(ms, CompressionMode.Decompress))
             {
-                using (var decomp = new MemoryStream())
-                {
-                    deflate.CopyTo(decomp);
-                    names = decomp.ToArray();
-                }
+                using (var reader = new XmlTextReader(deflate))
+                    document = XDocument.Load(reader);
             }
 
             Names = new Dictionary<int, string>();
-            var document = XDocument.Parse(Encoding.UTF8.GetString(names));
             var entries = document.Element("Entries");
             if (entries == null) return;
             foreach (var desc in entries.Elements("Entry"))
@@ -48,7 +44,7 @@ namespace BlackOps2SoundStudio.Format
                 var hash = desc.Attribute("Hash");
                 var path = desc.Attribute("Path");
                 if (hash == null || path == null) continue;
-                Names.Add(int.Parse(hash.Value, NumberStyles.HexNumber), path.Value);
+                Names[int.Parse(hash.Value, NumberStyles.HexNumber)] = path.Value;
             }
         }
 
@@ -87,6 +83,9 @@ namespace BlackOps2SoundStudio.Format
                 return;
 
             var dict = new Dictionary<string, string>();
+            foreach (var kvp in Names)
+                dict.Add(kvp.Key.ToString("X8"), kvp.Value);
+
             foreach (var file in Directory.GetFiles("Identifiers"))
             {
                 var lines = File.ReadAllLines(file);
@@ -99,8 +98,7 @@ namespace BlackOps2SoundStudio.Format
                     if (split.Length != 2)
                         continue;
 
-                    if (!dict.ContainsKey(split[0]))
-                        dict.Add(split[0], split[1]);
+                    dict[split[0]] = split[1];
                 }
             }
 
@@ -112,6 +110,11 @@ namespace BlackOps2SoundStudio.Format
 
             using (var writer = XmlWriter.Create("Names.xml", new XmlWriterSettings { Indent = true }))
                 document.WriteTo(writer);
+
+            using (var stream = File.OpenRead("Names.xml"))
+            using (var outStream = File.Create("Names.deflate"))
+            using (var deflate = new DeflateStream(outStream, CompressionMode.Compress))
+                stream.CopyTo(deflate);
         }
 #endif
     }
