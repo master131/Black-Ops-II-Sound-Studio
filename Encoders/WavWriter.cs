@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace BlackOps2SoundStudio.Decoders
+namespace BlackOps2SoundStudio.Encoders
 {
     // Credits to: Stanimir Stoyanov
     // Taken from: http://stoyanov.in/2010/07/26/decoding-flac-audio-files-in-c/

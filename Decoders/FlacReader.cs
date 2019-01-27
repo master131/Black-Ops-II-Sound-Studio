@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using BlackOps2SoundStudio.Encoders;
 
 namespace BlackOps2SoundStudio.Decoders
 {
