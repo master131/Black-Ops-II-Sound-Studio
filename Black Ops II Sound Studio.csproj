@@ -38,8 +38,9 @@
     <ApplicationIcon>sound-studio.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NAudio">
-      <HintPath>..\..\..\..\..\Desktop\NAudio-Release\NAudio.dll</HintPath>
+    <Reference Include="NAudio, Version=1.8.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.5\lib\net35\NAudio.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
@@ -64,7 +65,7 @@
       <DependentUpon>ConvertProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Encoders\FlacWriter.cs" />
-    <Compile Include="Encoders\WavReader.cs" />
+    <Compile Include="Decoders\WavReader.cs" />
     <Compile Include="ExportProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,7 +97,7 @@
     <Compile Include="SndAliasBankHelper.cs" />
     <Compile Include="ToolStripAeroRenderer.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="Decoders\WavWriter.cs" />
+    <Compile Include="Encoders\WavWriter.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +121,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\about.rtf" />
-    <None Include="Resources\libFLAC.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Names.deflate" />

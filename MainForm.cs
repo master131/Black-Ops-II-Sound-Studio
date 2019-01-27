@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using BlackOps2SoundStudio.Converter;
 using BlackOps2SoundStudio.Decoders;
+using BlackOps2SoundStudio.Encoders;
 using BlackOps2SoundStudio.Format;
 using NAudio.Wave;
 

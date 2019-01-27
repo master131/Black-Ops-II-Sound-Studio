@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using BlackOps2SoundStudio.Decoders;
+using BlackOps2SoundStudio.Encoders;
 using BlackOps2SoundStudio.Format;
 
 namespace BlackOps2SoundStudio
