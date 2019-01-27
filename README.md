@@ -1,9 +1,14 @@
 # Black Ops II Sound Studio
 Allows for playback and editing of SABS/SABL files for Black Ops II/III.
 
-![](http://i.imgur.com/a5CoAGU.png)
+PC:
+![](https://i.imgur.com/hiEAzrR.png)
 
-![](http://i.imgur.com/qB8H3G9.png)
+XBOX360:
+![](https://i.imgur.com/13tFCNh.png)
+
+PS3:
+![](https://i.imgur.com/f0LdRj9.png)
 
 ## Features:
 * Supports both Black Ops II and Black Ops III.
