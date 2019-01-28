@@ -158,7 +158,7 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(91, 20);
             this.versionLabel.TabIndex = 1;
-            this.versionLabel.Text = "Version 1.5.2";
+            this.versionLabel.Text = "Version 1.5.4";
             // 
             // versionLayoutPanel
             // 
@@ -179,7 +179,7 @@
             this.copyrightLabel.Name = "copyrightLabel";
             this.copyrightLabel.Size = new System.Drawing.Size(169, 40);
             this.copyrightLabel.TabIndex = 2;
-            this.copyrightLabel.Text = "Copyright © 2013-2015 master131";
+            this.copyrightLabel.Text = "Copyright © 2013-2019 master131";
             // 
             // reservedLabel
             // 
