@@ -127,11 +127,6 @@ namespace BlackOps2SoundStudio.Format
         }
         */
 
-        private static long PaddingAlign(long num, int alignTo)
-        {
-            return num % alignTo == 0 ? num : alignTo - num % alignTo;
-        }
-
         private void ReadEntriesT7(int entryCount)
         {
             for (int i = 0; i < entryCount; i++)
@@ -152,16 +147,6 @@ namespace BlackOps2SoundStudio.Format
                 entry.Data = new AudioDataStream(_stream, entry.Size, entry.Offset);
                 _sndAliasBank.Entries.Add(entry);
             }
-        }
-
-        private bool HasDoubleHeader(SndAssetBankEntryT7 entry)
-        {
-            _stream.Position = entry.Offset;
-
-            // Check for the magic, if present shift offset.
-            if (_reader.ReadInt32() == SndAliasConstants.Magic)
-                return true;
-            return false;
         }
 
         private void ReadEntriesT6(int entryCount)
