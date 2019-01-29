@@ -68,7 +68,9 @@ namespace BlackOps2SoundStudio.Format
             var br = new BinaryReader(BaseStream);
             long oldPosition = BaseStream.Position;
             BaseStream.Position = Entry.Offset;
-            while (BaseStream.Position < BaseStream.Length) {
+            // Search the current FLAC data for the FF F8 byte sequence
+            // which acts as a marker for the first audio frame
+            while (BaseStream.Position < Entry.Offset + Entry.Size) {
                 if (br.ReadUInt16() == 0xf8ff) {
                     BaseStreamStart = BaseStream.Position - 2;
                     break;
