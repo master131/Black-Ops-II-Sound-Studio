@@ -9,6 +9,10 @@ namespace BlackOps2SoundStudio.Format
         private int _length;
         private byte[] _cache;
 
+        public Stream Stream {
+            get { return _stream; }
+        }
+
         public int Length { get; private set; }
 
         public AudioDataStream(Stream stream, int length, long offset = 0)

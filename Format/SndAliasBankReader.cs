@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace BlackOps2SoundStudio.Format
 {
@@ -29,12 +30,27 @@ namespace BlackOps2SoundStudio.Format
                 throw new BadImageFormatException("Invalid magic value detected, ensure that the file is valid.");
 
             // Check the version.
-            if ((_sndAliasBank.Version = _reader.ReadInt32()) != SndAliasConstants.Version && _sndAliasBank.Version != SndAliasConstants.Version_T7)
-                throw new BadImageFormatException("Invalid version detected, expected " + SndAliasConstants.Version + " or " + SndAliasConstants.Version_T7 + " but got: " + _sndAliasBank.Version);
+            var supportedVersions = new[] {SndAliasConstants.Version_T6, SndAliasConstants.Version_T7, SndAliasConstants.Version_IW7};
+            if (!supportedVersions.Contains(_sndAliasBank.Version = _reader.ReadInt32()))
+                throw new BadImageFormatException("Invalid version detected, expected [" + string.Join(", ", supportedVersions.Select(i => i.ToString())) + "] but got: " + _sndAliasBank.Version);
+
+            int sizeOfAudioEntry = 0;
+            switch (_sndAliasBank.Version)
+            {
+                case SndAliasConstants.Version_T6:
+                    sizeOfAudioEntry = SndAliasConstants.SizeOfAudioEntry_T6;
+                    break;
+                case SndAliasConstants.Version_T7:
+                    sizeOfAudioEntry = SndAliasConstants.SizeOfAudioEntry_T7;
+                    break;
+                case SndAliasConstants.Version_IW7:
+                    sizeOfAudioEntry = SndAliasConstants.SizeOfAudioEntry_IW7;
+                    break;
+            }
 
             // Check the sizes.
-            if ((_sndAliasBank.SizeOfAudioEntry = _reader.ReadInt32()) != SndAliasConstants.SizeOfAudioEntry && _sndAliasBank.SizeOfAudioEntry != SndAliasConstants.SizeOfAudioEntry_T7)
-                throw new BadImageFormatException("Invalid audio entry size detected, expected " + SndAliasConstants.SizeOfAudioEntry + " but got: " + _sndAliasBank.SizeOfAudioEntry);
+            if ((_sndAliasBank.SizeOfAudioEntry = _reader.ReadInt32()) != sizeOfAudioEntry)
+                throw new BadImageFormatException("Invalid audio entry size detected, expected " + sizeOfAudioEntry + " but got: " + _sndAliasBank.SizeOfAudioEntry);
 
             if ((_sndAliasBank.SizeOfChecksumEntry = _reader.ReadInt32()) != SndAliasConstants.SizeOfHashEntry)
                 throw new BadImageFormatException("Invalid checksum entry size detected, expected " + SndAliasConstants.SizeOfHashEntry + " but got: " + _sndAliasBank.SizeOfChecksumEntry);
@@ -86,8 +102,10 @@ namespace BlackOps2SoundStudio.Format
             _sndAliasBank.Entries = new List<SndAssetBankEntry>();
             if (_sndAliasBank.Version == SndAliasConstants.Version_T7)
                 ReadEntriesT7(entryCount);
-            else
+            else if (_sndAliasBank.Version == SndAliasConstants.Version_T6)
                 ReadEntriesT6(entryCount);
+            else if (_sndAliasBank.Version == SndAliasConstants.Version_IW7)
+                ReadEntriesIW7(entryCount);
 
             // Read the hashes.
             _stream.Position = _sndAliasBank.OffsetOfChecksums;
@@ -97,10 +115,33 @@ namespace BlackOps2SoundStudio.Format
                 _sndAliasBank.Checksums.Add(_reader.ReadBytes(16));
 
             // Read the names.
+            if (_sndAliasBank.Version == SndAliasConstants.Version_IW7)
+                ReadNamesIW7();
             /*
             if (_sndAliasBank.Version == SndAliasConstants.Version_T7)
                 ReadNamesT7();
             */
+        }
+
+        private void ReadNamesIW7() {
+            _stream.Position = 0x250;
+            var namesPosition = _reader.ReadInt64();
+            if (namesPosition == 0)
+                return;
+
+            _stream.Position = namesPosition;
+            for (int i = 0; i < _sndAliasBank.Entries.Count; i++)
+            {
+                var nameBytes = _reader.ReadBytes(0x80);
+                var sb = new StringBuilder();
+                int x = 0;
+                while (x < nameBytes.Length && nameBytes[x] != 0)
+                {
+                    sb.Append((char)nameBytes[x]);
+                    x++;
+                }
+                SndAliasNameDatabase.Names[_sndAliasBank.Entries[i].Identifier] = sb.ToString();
+            }
         }
 
         /*
@@ -126,6 +167,36 @@ namespace BlackOps2SoundStudio.Format
             }
         }
         */
+
+        private void ReadEntriesIW7(int entryCount)
+        {
+            for (int i = 0; i < entryCount; i++)
+            {
+                var entry = new SndAssetBankEntryIW7
+                {
+                    Identifier = _reader.ReadInt32(),
+                    Size = _reader.ReadInt32(),
+                    Unknown = _reader.ReadInt32(),
+                    SampleCount = _reader.ReadInt32(),
+                    Unknown2 = _reader.ReadInt32(),
+                    Offset = _reader.ReadInt64(),
+                    SampleRate = _reader.ReadInt32(),
+                    ChannelCount = _reader.ReadByte(),
+                    Loop = _reader.ReadBoolean(),
+                    Format = (AudioFormat)_reader.ReadByte(),
+                    Unknown3 = _reader.ReadBytes(count: 0x9)
+                };
+                if (entry.Format == AudioFormat.FLAC) {
+                    // Use a stream wrapper that appends a FLAC header
+                    entry.Data = new AudioDataStream(new HeaderlessFLACStream(_stream, entry), entry.Size);
+                }
+                else {
+                    entry.Data = new AudioDataStream(_stream, entry.Size, entry.Offset);
+                }
+                
+                _sndAliasBank.Entries.Add(entry);
+            }
+        }
 
         private void ReadEntriesT7(int entryCount)
         {
@@ -153,7 +224,7 @@ namespace BlackOps2SoundStudio.Format
         {
             for (int i = 0; i < entryCount; i++)
             {
-                var entry = new SndAssetBankEntry
+                var entry = new SndAssetBankEntryT6
                 {
                     Identifier = _reader.ReadInt32(),
                     Size = _reader.ReadInt32(),

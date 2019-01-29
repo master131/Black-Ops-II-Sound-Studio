@@ -2,27 +2,25 @@
 
 namespace BlackOps2SoundStudio.Format
 {
-    class SndAssetBankEntryT7 : SndAssetBankEntry
+    class SndAssetBankEntryT7 : SndAssetBankEntryT6
     {
         public int Pad { get; set; }
         public long Unknown { get; set; }
     }
 
-    class SndAssetBankEntry
+    class SndAssetBankEntryIW7 : SndAssetBankEntry
     {
+        public int Unknown { get; set; }
+        public int Unknown2 { get; set; }
+        public byte[] Unknown3 { get; set; }
+        public override int SampleRate { get; set; }
+    }
+
+    class SndAssetBankEntryT6 : SndAssetBankEntry {
         private static readonly int[] SampleRateTable = new[] { 8000, 12000, 16000, 24000, 32000, 44100, 48000, 96000, 192000 };
-
-        public int Identifier { get; set; }
-        public int Size { get; set; }
-        public long Offset { get; set; }
-        public int SampleCount { get; set; }
         public byte SampleRateFlag { get; set; }
-        public byte ChannelCount { get; set; }
-        public bool Loop { get; set; }
-        public AudioFormat Format { get; set; }
-        public IAudioData Data { get; set; }
 
-        public int SampleRate
+        public override int SampleRate
         {
             get
             {
@@ -35,9 +33,23 @@ namespace BlackOps2SoundStudio.Format
                 int index = Array.FindIndex(SampleRateTable, s => s == value);
                 if (index == -1)
                     throw new ArgumentOutOfRangeException("value", "The specified sample rate is not supported.");
-                SampleRateFlag = (byte) index;
+                SampleRateFlag = (byte)index;
             }
         }
+    }
+
+    class SndAssetBankEntry
+    {
+        public int Identifier { get; set; }
+        public int Size { get; set; }
+        public long Offset { get; set; }
+        public int SampleCount { get; set; }
+        public byte ChannelCount { get; set; }
+        public bool Loop { get; set; }
+        public AudioFormat Format { get; set; }
+        public IAudioData Data { get; set; }
+
+        public virtual int SampleRate { get; set; }
 
         public TimeSpan Duration
         {

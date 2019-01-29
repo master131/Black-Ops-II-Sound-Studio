@@ -375,9 +375,9 @@ namespace BlackOps2SoundStudio
 
         private Stream DecodeFLAC(SndAssetBankEntry entry)
         {
+            var wavOutput = new MemoryStream();
             try
             {
-                var wavOutput = new MemoryStream();
                 using (var input = new MemoryStream(entry.Data.Get()))
                 using (var wavWriter = new WavWriter(wavOutput))
                 using (var reader = new FlacReader(input, wavWriter))
@@ -390,8 +390,15 @@ namespace BlackOps2SoundStudio
                 wavOutput.Position = 0;
                 return wavOutput;
             }
-            catch
+            catch (Exception e)
             {
+                // Ignore exception for headerless FLAC
+                if (e.Message.IndexOf("until eof", StringComparison.InvariantCulture) != -1 &&
+                    entry.Data is AudioDataStream && ((AudioDataStream) entry.Data).Stream is HeaderlessFLACStream)
+                {
+                    wavOutput.Position = 0;
+                    return wavOutput;
+                }
                 return null;
             }
         }

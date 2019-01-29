@@ -72,6 +72,7 @@
     <Compile Include="ExportProgressForm.Designer.cs">
       <DependentUpon>ExportProgressForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Format\HeaderlessFLACStream.cs" />
     <Compile Include="Format\SndAssetBankEntry.cs" />
     <Compile Include="Format\AudioFormat.cs" />
     <Compile Include="Format\AudioDataStream.cs" />

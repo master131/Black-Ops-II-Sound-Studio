@@ -87,7 +87,7 @@ namespace BlackOps2SoundStudio.Format
                 writer.Write(entry.Size);
                 writer.Write((int)entry.Offset);
                 writer.Write(entry.SampleCount);
-                writer.Write(entry.SampleRateFlag);
+                writer.Write(((SndAssetBankEntryT6) entry).SampleRateFlag);
                 writer.Write(entry.ChannelCount);
                 writer.Write(entry.Loop);
                 writer.Write((byte) entry.Format);
@@ -149,7 +149,7 @@ namespace BlackOps2SoundStudio.Format
                 writer.Write(entry.Size);
                 writer.Write((int)entry.Offset);
                 writer.Write(entry.SampleCount);
-                writer.Write(entry.SampleRateFlag);
+                writer.Write(((SndAssetBankEntryT6)entry).SampleRateFlag);
                 writer.Write(entry.ChannelCount);
                 writer.Write(entry.Loop ? (byte) 1 : (byte) 0);
                 writer.Write((byte) entry.Format);
