@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -132,6 +133,15 @@ namespace BlackOps2SoundStudio
             headerPropertyGrid.SelectedObject = headerProperty;
         }
 
+        private string GetNameForEntry(SndAssetBankEntry entry, int index) {
+            string name;
+            if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name))
+                name = showFullNameToolStripMenuItem.Checked ? name : Path.GetFileName(name);
+            else
+                name = "Sound #" + (index + 1) + SndAliasBankHelper.GetExtensionFromFormat(entry.Format);
+            return name;
+        }
+
         private void UpdateAudioEntries()
         {
             audioEntriesDataGridView.Rows.Clear();
@@ -150,11 +160,7 @@ namespace BlackOps2SoundStudio
             for (int i = 0; i < _sndAliasBank.Entries.Count; i++)
             {
                 var entry = _sndAliasBank.Entries[i];
-                string name;
-                if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name))
-                    name = showFullNameToolStripMenuItem.Checked ? name : Path.GetFileName(name);
-                else
-                    name = "Sound #" + (i + 1) + SndAliasBankHelper.GetExtensionFromFormat(entry.Format);
+                var name = GetNameForEntry(entry, i);
                 var row = new DataGridViewRow();
                 row.CreateCells(audioEntriesDataGridView,
                     name,
@@ -223,6 +229,7 @@ namespace BlackOps2SoundStudio
                 saveAsToolStripMenuItem.Enabled = true;
                 saveToolStripMenuItem.Enabled = true;
                 refreshToolStripMenuItem.Enabled = true;
+                forceChangeFormatToolStripMenuItem.Enabled = true;
                 SetLabelColumnWidth(headerPropertyGrid, 130);
             }
             catch (Exception ex)
@@ -733,8 +740,49 @@ namespace BlackOps2SoundStudio
             {
                 var entry = (SndAssetBankEntry) row.Tag;
                 string name;
-                if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name))
+                if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name)) 
                     row.Cells[0].Value = showFullNameToolStripMenuItem.Checked ? name : Path.GetFileName(name);
+            }
+        }
+
+        private void forceFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to change the format recognised by Black Ops II Sound Studio? " +
+                                "This is usually something you do not want to do unless you are working with pre-production sound files.",
+                "Black Ops II Sound Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
+                var targetFormat = ((ToolStripMenuItem) sender).Text;
+                AudioFormat format;
+                switch (targetFormat) {
+                    case "PCM":
+                        format = AudioFormat.PCMS16;
+                        break;
+                    case "XMA":
+                        format = AudioFormat.XMA4;
+                        break;
+                    case "MP3":
+                        format = AudioFormat.MP3;
+                        break;
+                    case "FLAC":
+                        format = AudioFormat.FLAC;
+                        break;
+                    default:
+                        return;
+                }
+
+                var entries = audioEntriesDataGridView.Rows
+                    .Cast<DataGridViewRow>()
+                    .Select(r => (SndAssetBankEntry) r.Tag)
+                    .OrderBy(r => r.Offset)
+                    .ToList();
+
+                foreach (DataGridViewRow row in audioEntriesDataGridView.Rows) {
+                    var entry = (SndAssetBankEntry) row.Tag;
+                    entry.Format = format;
+                    row.Cells[0].Value = GetNameForEntry(entry, entries.IndexOf(entry));
+                    row.Cells[3].Value = SndAliasBankHelper.GetFormatName(format);
+                }
+
+                audioEntriesDataGridView.Refresh();
             }
         }
     }

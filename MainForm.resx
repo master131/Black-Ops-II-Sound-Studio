@@ -178,7 +178,7 @@
   <data name="playToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABiSURBVDhPYxic4OvXr/u/f/+uAOWSDr59+/YfiN8DDSqA
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABiSURBVDhPYxic4OvXr/u/f/+uAOWSDr59+/YfiN8DDSqA
         CpEGQAakpKT8v3Llyn+yXAMywMnJCYznzJlDumuQDQBhkl2DbgAME+0aqhtAkRfIDkSKo5FkW5EBWbYO
         EGBgAABghL6lSfVvAAAAAABJRU5ErkJggg==
 </value>
@@ -186,14 +186,14 @@
   <data name="pauseToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVDhPYxgFmODbt2//8WGoMtwApMjJyQmMYZqQ+VBl
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAySURBVDhPYxgFmODbt2//8WGoMtwApMjJyQmMYZqQ+VBl
         uMGoAVQyAB+GKhsFcMDAAABr38Wh2InVyQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="stopToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAqSURBVDhPYxgFmODbt2//8WGoMtwApMjJyQkrHjWAngbg
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAqSURBVDhPYxgFmODbt2//8WGoMtwApMjJyQkrHjWAngbg
         w1BlowAOGBgA8ausUTust3MAAAAASUVORK5CYII=
 </value>
   </data>
