@@ -145,7 +145,7 @@
             this.nameLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
             this.nameLabel.Location = new System.Drawing.Point(3, 0);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(230, 25);
+            this.nameLabel.Size = new System.Drawing.Size(226, 64);
             this.nameLabel.TabIndex = 0;
             this.nameLabel.Text = "Black Ops II Sound Studio";
             // 
@@ -153,12 +153,12 @@
             // 
             this.versionLabel.AutoSize = true;
             this.versionLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.versionLabel.Location = new System.Drawing.Point(3, 30);
+            this.versionLabel.Location = new System.Drawing.Point(235, 5);
             this.versionLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(91, 20);
+            this.versionLabel.Size = new System.Drawing.Size(118, 25);
             this.versionLabel.TabIndex = 1;
-            this.versionLabel.Text = "Version 1.5.4";
+            this.versionLabel.Text = "Version 1.6.0";
             // 
             // versionLayoutPanel
             // 
@@ -177,17 +177,17 @@
             this.copyrightLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.copyrightLabel.Location = new System.Drawing.Point(3, 0);
             this.copyrightLabel.Name = "copyrightLabel";
-            this.copyrightLabel.Size = new System.Drawing.Size(169, 40);
+            this.copyrightLabel.Size = new System.Drawing.Size(215, 50);
             this.copyrightLabel.TabIndex = 2;
-            this.copyrightLabel.Text = "Copyright © 2013-2019 master131";
+            this.copyrightLabel.Text = "Copyright © 2013-2020 master131";
             // 
             // reservedLabel
             // 
             this.reservedLabel.AutoSize = true;
             this.reservedLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.reservedLabel.Location = new System.Drawing.Point(3, 40);
+            this.reservedLabel.Location = new System.Drawing.Point(224, 0);
             this.reservedLabel.Name = "reservedLabel";
-            this.reservedLabel.Size = new System.Drawing.Size(131, 20);
+            this.reservedLabel.Size = new System.Drawing.Size(24, 400);
             this.reservedLabel.TabIndex = 3;
             this.reservedLabel.Text = "All rights reserved.";
             // 
@@ -205,7 +205,7 @@
             // 
             // AboutForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 376);
             this.Controls.Add(this.mainLayoutPanel);
