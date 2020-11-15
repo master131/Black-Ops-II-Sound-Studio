@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using BlackOps2SoundStudio.Properties;
 
@@ -17,6 +18,9 @@ namespace BlackOps2SoundStudio
             using (var g = CreateGraphics())
                 if (g.DpiX > 96)
                     Recurse(this);
+
+            var v = typeof(AboutForm).Assembly.GetName().Version;
+            versionLabel.Text = "Version " + v.Major + "." + v.Minor + "." + v.Build;
         }
 
         private void Recurse(Control control)

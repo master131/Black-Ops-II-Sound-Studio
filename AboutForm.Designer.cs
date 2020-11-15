@@ -156,9 +156,9 @@
             this.versionLabel.Location = new System.Drawing.Point(235, 5);
             this.versionLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(118, 25);
+            this.versionLabel.Size = new System.Drawing.Size(80, 25);
             this.versionLabel.TabIndex = 1;
-            this.versionLabel.Text = "Version 1.6.0";
+            this.versionLabel.Text = "Version ";
             // 
             // versionLayoutPanel
             // 
