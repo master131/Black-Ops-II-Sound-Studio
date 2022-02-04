@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Black_Ops_II_Sound_Studio_Extended;
 using BlackOps2SoundStudio.Converter;
 using BlackOps2SoundStudio.Format;
 
@@ -46,6 +47,34 @@ namespace BlackOps2SoundStudio
             };
         }
 
+        public ConvertProgressForm(IProgress<int> conversionProgressReporter)
+        {
+            InitializeComponent();
+
+            _convertHelper = new ConvertHelper();
+
+            _convertHelper.ConversionProgressChanged += (sender, args) =>
+            {
+                var targetFormat = args.TargetFormat;
+                targetFormat = targetFormat.Substring(1).ToUpperInvariant();
+                /*if (targetFormat == "FLAC")
+                    conversionLabel.Text = "Encoding WAV to FLAC... ";
+                else
+                    conversionLabel.Text = "Converting " + Path.GetFileName(args.Source) + " to " + targetFormat + "... ";
+
+                conversionLabel.Text += args.Progress + "%";
+                conversionProgressBar.Value = args.Progress;*/
+                conversionProgressReporter.Report(args.Progress);
+            };
+
+            _convertHelper.ConversionCompleted += (sender, args) =>
+            {
+                GC.Collect();
+                _outputStream = args.Output;
+                Close();
+            };
+        }
+
         protected override CreateParams CreateParams
         {
             get
@@ -72,6 +101,16 @@ namespace BlackOps2SoundStudio
             return form.OutputStream;
         }
 
+        internal static Stream ConvertExternalProgressBar(string inputFile, AudioFormat format, ConvertOptions options, ReplaceAllForm replaceAllManager)
+        {
+            if (options == null) options = new ConvertOptions();
+            var form = new ConvertProgressForm(replaceAllManager.conversionProgress);
+            //form.conversionProgressBar = bar;
+            //form.conversionLabel = conversionLabel;
+            form.SetOptions(inputFile, format, options);
+            return form.ConvertProgressForm_Sync();
+        }
+
         public static Stream ConvertToFLAC(string inputFile, ConvertOptions options = null)
         {
             return Convert(inputFile, AudioFormat.FLAC, options);
@@ -95,6 +134,18 @@ namespace BlackOps2SoundStudio
                 _convertHelper.ConvertToHeaderlessWavAsync(_inputPath, _convertOptions);
             else if (_targetFormat == AudioFormat.MP3)
                 _convertHelper.ConvertToMP3Async(_inputPath, _convertOptions);
+        }
+
+        private Stream ConvertProgressForm_Sync()
+        {
+            if (_targetFormat == AudioFormat.FLAC)
+                return _convertHelper.ConvertToFLAC(_inputPath, _convertOptions);
+            else if (_targetFormat == AudioFormat.PCMS16)
+                return _convertHelper.ConvertToHeaderlessWav(_inputPath, _convertOptions);
+            else if (_targetFormat == AudioFormat.MP3)
+                return _convertHelper.ConvertToMP3(_inputPath, _convertOptions);
+            else
+                return null;
         }
     }
 }

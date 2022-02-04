@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Black Ops II Sound Studio Extended", "Black Ops II Sound Studio Extended.csproj", "{C87A67ED-F7AE-47D3-8797-A8DEB7890116}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C87A67ED-F7AE-47D3-8797-A8DEB7890116}.Debug|x86.ActiveCfg = Debug|x86
+		{C87A67ED-F7AE-47D3-8797-A8DEB7890116}.Debug|x86.Build.0 = Debug|x86
+		{C87A67ED-F7AE-47D3-8797-A8DEB7890116}.Release|x86.ActiveCfg = Release|x86
+		{C87A67ED-F7AE-47D3-8797-A8DEB7890116}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD865982-EE47-489D-809D-4A4C61235638}
+	EndGlobalSection
+EndGlobal

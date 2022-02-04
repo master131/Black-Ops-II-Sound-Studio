@@ -229,6 +229,10 @@ namespace BlackOps2SoundStudio.Converter
         {
             if (_async != null)
                 _async.Post(x => ConversionProgressChanged(this, args), null);
+            else
+            {
+                ConversionProgressChanged(this, args);
+            }
         }
 
         private void OnConversionCompleted(ConversionCompletedEventArgs args)

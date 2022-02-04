@@ -11,6 +11,8 @@ using BlackOps2SoundStudio.Decoders;
 using BlackOps2SoundStudio.Encoders;
 using BlackOps2SoundStudio.Format;
 using NAudio.Wave;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Black_Ops_II_Sound_Studio_Extended;
 
 namespace BlackOps2SoundStudio
 {
@@ -35,8 +37,8 @@ namespace BlackOps2SoundStudio
 #endif
 
             Font = SystemFonts.MessageBoxFont;
-            audioEntryOffsetColumn.ValueType = typeof (int);
-            audioEntrySizeColumn.ValueType = typeof (int);
+            audioEntryOffsetColumn.ValueType = typeof(int);
+            audioEntrySizeColumn.ValueType = typeof(int);
             headerPropertyGrid.ViewForeColor = Color.FromArgb(1, 0, 0);
             headerPropertyGrid.LineColor = Color.FromArgb(214, 219, 233);
             mainMenuStrip.Renderer = new ToolStripAeroRenderer(ToolbarTheme.Toolbar);
@@ -107,7 +109,7 @@ namespace BlackOps2SoundStudio
 
         private static string FormatSampleRate(int sampleRate)
         {
-            return string.Format("{0} kHz", sampleRate/1000);
+            return string.Format("{0} kHz", sampleRate / 1000);
         }
 
         private void UpdateHeaderInformation()
@@ -276,7 +278,7 @@ namespace BlackOps2SoundStudio
             mainMenuStrip.Enabled = false;
 
             // Find the current selected entry.
-            var entry = (SndAssetBankEntry) (_lastSelectedRow = audioEntriesDataGridView.SelectedRows[0]).Tag;
+            var entry = (SndAssetBankEntry)(_lastSelectedRow = audioEntriesDataGridView.SelectedRows[0]).Tag;
 
             ThreadPool.QueueUserWorkItem(x =>
             {
@@ -323,7 +325,7 @@ namespace BlackOps2SoundStudio
                 else if (entry.Format == AudioFormat.XMA4)
                 {
                     Invoke(new MethodInvoker(() => currentTimetoolStripLabel.Text = "Please wait, decoding audio..."));
-                    
+
                     using (var xmaStream = SndAliasBankHelper.AddXMAHeader(entry))
                         _audioStream = ConvertHelper.ConvertXMAToWAV(xmaStream);
 
@@ -333,7 +335,7 @@ namespace BlackOps2SoundStudio
                         provider = _wavFileReader;
                     }
                 }
-                
+
                 // Begin playing the audio on the UI thread.
                 Invoke(new MethodInvoker(() =>
                 {
@@ -401,7 +403,7 @@ namespace BlackOps2SoundStudio
             {
                 // Ignore exception for headerless FLAC
                 if (e.Message.IndexOf("until eof", StringComparison.InvariantCulture) != -1 &&
-                    entry.Data is AudioDataStream && ((AudioDataStream) entry.Data).Stream is HeaderlessFLACStream)
+                    entry.Data is AudioDataStream && ((AudioDataStream)entry.Data).Stream is HeaderlessFLACStream)
                 {
                     wavOutput.Position = 0;
                     return wavOutput;
@@ -527,7 +529,7 @@ namespace BlackOps2SoundStudio
             if (entry.Format == AudioFormat.PCMS16)
             {
                 var sampleCount = newData.Length / (entry.ChannelCount * 2);
-                var duration = TimeSpan.FromMilliseconds(1000 * (float) sampleCount / entry.SampleRate);
+                var duration = TimeSpan.FromMilliseconds(1000 * (float)sampleCount / entry.SampleRate);
                 if (duration > entry.Duration && duration.Subtract(entry.Duration).TotalSeconds >= 1)
                 {
                     if (MessageBox.Show(
@@ -551,7 +553,7 @@ namespace BlackOps2SoundStudio
                 entry.Duration = helper.GetDuration(newData);
             }
 
-            entry.Data = new AudioDataStream(newData, (int) newData.Length);
+            entry.Data = new AudioDataStream(newData, (int)newData.Length);
 
             foreach (DataGridViewRow row in audioEntriesDataGridView.Rows)
             {
@@ -581,7 +583,7 @@ namespace BlackOps2SoundStudio
                 return;
             }
 
-            var entry = (SndAssetBankEntry) audioEntriesDataGridView.SelectedRows[0].Tag;
+            var entry = (SndAssetBankEntry)audioEntriesDataGridView.SelectedRows[0].Tag;
 
             if (entry.Format == AudioFormat.XMA4)
             {
@@ -592,7 +594,7 @@ namespace BlackOps2SoundStudio
 
             using (var openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "All supported formats|*.mp3;*.wav;*.flac;*.ogg;*.m4a;*.wma;*.avi;*.flv;*.mp4;*.webm;*.mkv;*.wmv;*.3gp|All files|*.*";
+                openFileDialog.Filter = "All supported formats|*.mp3;*.wav;*.flac;*.ogg;*.m4a;*.wma;*.avi;*.flv;*.mp4;*.webm;*.mkv;*.wmv;*.3gp;*.xma|All files|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                     ReplaceAudio(entry, openFileDialog.FileName);
             }
@@ -624,7 +626,7 @@ namespace BlackOps2SoundStudio
         {
             var selectedRow = audioEntriesDataGridView.SelectedRows[0];
             var name = selectedRow.Cells[0].Value.ToString();
-            var entry = (SndAssetBankEntry) selectedRow.Tag;
+            var entry = (SndAssetBankEntry)selectedRow.Tag;
 
             using (var saveFileDialog = new SaveFileDialog())
             {
@@ -738,9 +740,9 @@ namespace BlackOps2SoundStudio
         {
             foreach (DataGridViewRow row in audioEntriesDataGridView.Rows)
             {
-                var entry = (SndAssetBankEntry) row.Tag;
+                var entry = (SndAssetBankEntry)row.Tag;
                 string name;
-                if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name)) 
+                if (SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out name))
                     row.Cells[0].Value = showFullNameToolStripMenuItem.Checked ? name : Path.GetFileName(name);
             }
         }
@@ -750,7 +752,7 @@ namespace BlackOps2SoundStudio
             if (MessageBox.Show("Are you sure you want to change the format recognised by Black Ops II Sound Studio? " +
                                 "This is usually something you do not want to do unless you are working with pre-production sound files.",
                 "Black Ops II Sound Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
-                var targetFormat = ((ToolStripMenuItem) sender).Text;
+                var targetFormat = ((ToolStripMenuItem)sender).Text;
                 AudioFormat format;
                 switch (targetFormat) {
                     case "PCM":
@@ -771,12 +773,12 @@ namespace BlackOps2SoundStudio
 
                 var entries = audioEntriesDataGridView.Rows
                     .Cast<DataGridViewRow>()
-                    .Select(r => (SndAssetBankEntry) r.Tag)
+                    .Select(r => (SndAssetBankEntry)r.Tag)
                     .OrderBy(r => r.Offset)
                     .ToList();
 
                 foreach (DataGridViewRow row in audioEntriesDataGridView.Rows) {
-                    var entry = (SndAssetBankEntry) row.Tag;
+                    var entry = (SndAssetBankEntry)row.Tag;
                     entry.Format = format;
                     row.Cells[0].Value = GetNameForEntry(entry, entries.IndexOf(entry));
                     row.Cells[3].Value = SndAliasBankHelper.GetFormatName(format);
@@ -784,6 +786,331 @@ namespace BlackOps2SoundStudio
 
                 audioEntriesDataGridView.Refresh();
             }
+        }
+
+        public void startReplaceAll(ReplaceAllForm replaceAllManager)
+        {
+            // unpack Replace Manager attributes
+            string path = replaceAllManager.path;
+            string source = replaceAllManager.source;
+            string target = replaceAllManager.target;
+            bool stopWhenNoMatch = replaceAllManager.stopWhenNoMatch;
+            bool stopWhenReplaceFails = replaceAllManager.stopWhenReplaceFails;
+            bool applyDupFix = replaceAllManager.applyDupFix;
+            IProgress<int> overallProgressValue = replaceAllManager.overallProgress;
+            IProgress<string> reportConsole = replaceAllManager.reportConsole;
+            IProgress<int> matchCountReporter = replaceAllManager.matchCountReporter;
+
+            // load all file paths
+            IEnumerable<string> files = Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories);
+            int fileCount = files.Count();
+            reportConsole.Report("Files found: " + fileCount + "\n");
+
+            // find matching snd files
+            reportConsole.Report("--------------------------\n"); 
+            reportConsole.Report("MATCHING RESULTS\n");
+            reportConsole.Report("Matching... (this may take long)\n");
+            Dictionary<SndAssetBankEntry, string> matchedEntries = new Dictionary<SndAssetBankEntry, string>();
+            Dictionary< string, string> unmatchedEntries = new Dictionary<string, string>();
+
+            int duplicatedFiles = 0;
+            foreach (string filepath in files)
+            {
+                // set cancel condition, only possible before a matching process starts
+                if (replaceAllManager.tokenSource.Token.IsCancellationRequested)
+                {
+                    reportConsole.Report("Cancelling...\n");
+                    replaceAllManager.tokenSource.Token.ThrowIfCancellationRequested();
+                }
+
+                // adjust the filepath to match the target file pattern
+                string matchingName = Path.GetFileName(filepath) // remove filepath, only leaving the filename
+                    .Replace("."+source, "."+target) // change the platform
+                    .Replace(Path.GetExtension(filepath), ""); // remove file extension
+
+                // perform lookup and save (only when there are still entries left)
+                SndAssetBankEntry snd = null;
+                if (matchedEntries.Count < _sndAliasBank.Entries.Count)
+                    snd = this.GetEntryForName(matchingName);
+                else
+                {
+                    reportConsole.Report("All sound files were already matched. Skipping all files left.\n");
+                    break;
+                }
+
+
+                // skip duplicated files
+                if (snd != null && (matchedEntries.ContainsKey(snd) || unmatchedEntries.ContainsKey(filepath)))
+                {
+                    reportConsole.Report($"Skipping duplicated file: {filepath}\n");
+                    duplicatedFiles++;
+                    continue;
+                }
+
+                if (snd != null)
+                {
+                    matchedEntries.Add(snd, filepath);
+                    //reportConsole.Report(Path.GetFileName(filepath) + " -> snd(" + snd.Identifier + "," + this.GetNameForEntry(snd, 0) + ")\n");
+                }
+                else
+                    unmatchedEntries.Add(filepath, matchingName);
+            }
+
+            reportConsole.Report("Finished matching files.\n");
+
+            // create extra entry for duplicated voicelines (not to confuse with duplicated files)
+            int dupCount = 0;
+            int skippedDups = 0;
+            if (applyDupFix)
+            {
+                reportConsole.Report("Dup fix will be applied. All files containing '_m_' will have repeated entries using '_s_' instead.\n");
+                reportConsole.Report("Creating matching dups...\n");
+                // look for files that can be duplicated
+                foreach (string filepath in files)
+                {
+                    if (filepath.Contains("_m_"))
+                    {
+                        // set cancel condition, only possible before a matching process starts
+                        if (replaceAllManager.tokenSource.Token.IsCancellationRequested)
+                        {
+                            reportConsole.Report("Cancelling...\n");
+                            replaceAllManager.tokenSource.Token.ThrowIfCancellationRequested();
+                        }
+
+                        // create fake filepath and adjust it to match a real sound file
+                        string dupFilepath = filepath.Replace("_m_", "_s_");
+                        string dupMatchingName = Path.GetFileName(dupFilepath) // remove filepath, only leaving the filename
+                            .Replace("." + source, "." + target) // change the platform
+                            .Replace(Path.GetExtension(dupFilepath), ""); // remove file extension
+
+                        // perform lookup and save (only when there are still entries left)
+                        SndAssetBankEntry dupSnd = null;
+                        if (matchedEntries.Count < _sndAliasBank.Entries.Count)
+                            dupSnd = this.GetEntryForName(dupMatchingName);
+                        else
+                        {
+                            reportConsole.Report("All sound files were already matched. Skipping all dups left.\n");
+                            break;
+                        }
+
+                        // check if the real file has already been tested to avoid duplicated entry conflicts (ironic...)
+                        if (dupSnd != null && (matchedEntries.ContainsKey(dupSnd) || unmatchedEntries.ContainsKey(filepath)))
+                        {
+                            skippedDups++;
+                            reportConsole.Report("Dup file already exists -> ");
+                            reportConsole.Report($"Generated \"{Path.GetFileName(dupFilepath)}\" from \"{filepath}\". Skipping...\n");
+                            continue;
+                        }
+
+                        if (dupSnd != null)
+                        {
+                            dupCount++;
+                            // add new entry but using the unmodified filepath (the "_m_" version) so it can be duplicated
+                            matchedEntries.Add(dupSnd, filepath);
+                            //reportConsole.Report(Path.GetFileName(filepath) + " -> snd(" + dupSnd.Identifier + "," + this.GetNameForEntry(dupSnd, 0) + ")\n");
+                        }
+                        else
+                            unmatchedEntries.Add(filepath, dupMatchingName);
+                    }
+                }
+            }
+
+            if (applyDupFix)
+                reportConsole.Report("Finished generating and matching dups.\n");
+
+            if (unmatchedEntries.Count > 0)
+            {
+                reportConsole.Report("Not all entries matched.\n");
+                if (matchedEntries.Count < _sndAliasBank.Entries.Count)
+                    reportConsole.Report($"Unmatched entries: {unmatchedEntries.Count}\n");
+                else
+                    reportConsole.Report($"Unmatched entries (thus far, some were skipped): {unmatchedEntries.Count}\n");
+                foreach (string filepath in unmatchedEntries.Keys)
+                {
+                    reportConsole.Report($"{Path.GetFileName(filepath)} :: Generated name: {unmatchedEntries[filepath]}\n");
+                }
+                if (stopWhenNoMatch)
+                {
+                    reportConsole.Report("Stopping...\n");
+                    MessageBox.Show("Not all files matched. Stopping...",
+                                    "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            }
+
+            // display matching results
+            if (dupCount > 0)
+                reportConsole.Report($"Matched {matchedEntries.Count} of {fileCount + dupCount} valid entries (files + generated dups).\n");
+            else
+                reportConsole.Report($"Matched {matchedEntries.Count} of {fileCount} files.\n");
+            if (duplicatedFiles > 0)
+                reportConsole.Report($"Skipped {duplicatedFiles} duplicated files.\n");
+            if (skippedDups > 0)
+                reportConsole.Report($"Skipped {skippedDups} generated dup(s).\n");
+            matchCountReporter.Report(matchedEntries.Count);
+
+            // replace
+            reportConsole.Report("--------------------------\n");
+            reportConsole.Report("REPLACING RESULTS\n");
+            reportConsole.Report("Replacing sound files...\n");
+            int replaceCount = 0;
+            foreach (SndAssetBankEntry entry in matchedEntries.Keys)
+            {
+                // set cancel condition, only possible before a conversion process starts
+                if (replaceAllManager.tokenSource.Token.IsCancellationRequested)
+                {
+                    reportConsole.Report("Cancelling...\n");
+                    replaceAllManager.tokenSource.Token.ThrowIfCancellationRequested();
+                }
+
+                // replace
+                bool success = this.ReplaceManually(entry, matchedEntries[entry], replaceAllManager);
+
+                // check success result
+                if (!success)
+                {
+                    reportConsole.Report("File not replaced: ");
+                    reportConsole.Report(Path.GetFileName(matchedEntries[entry]) + " -> " + this.GetNameForEntry(entry, 0) + "\n");
+
+                    if (stopWhenReplaceFails)
+                    {
+                        reportConsole.Report("Stopping...\n");
+                        MessageBox.Show("A file could not be replaced. Stopping...",
+                                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        if (overallProgressValue != null)
+                        {
+                            overallProgressValue.Report(0);
+                        }
+                        return;
+                    }
+                }
+                else
+                {
+                    replaceCount++;
+                    //reportConsole.Report($"Replaced {replaceCount} of {fileCount} files\n");
+                }
+
+                overallProgressValue.Report(replaceCount);
+            }
+            reportConsole.Report("Finished replacing sound files.\n");
+
+            reportConsole.Report("--------------------------\n");
+            reportConsole.Report("All files were processed!\n");
+            MessageBox.Show("All files were processed!",
+                            "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void replaceAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_sndAliasBank == null)
+            {
+                MessageBox.Show("You need to open a .sabs or .sabl file first.", "Replace Manager", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            } 
+            else
+                using (var form = new ReplaceAllForm(this))
+                {
+                    form.ShowDialog();
+                }
+        }
+
+        private SndAssetBankEntry GetEntryForName(string name)
+        {
+            // find matching snd identifier
+            int identifier = SndAliasNameDatabase.Names.FirstOrDefault(x => Path.GetFileName(x.Value) == name).Key;
+            // get snd entry based on identifier
+            SndAssetBankEntry snd = _sndAliasBank.Entries.FirstOrDefault(y => y.Identifier == identifier);
+            return snd;
+        }
+
+        private bool ReplaceManually(SndAssetBankEntry entry, string filename, ReplaceAllForm replaceAllManager)
+        {
+            // unpack Replace Manager attributes
+            IProgress<string> reportConsole = replaceAllManager.reportConsole;
+            //Label conversionLabel = replaceAllManager.conversionProgressLabel;
+
+            // Ensure FFmpeg binaries are present before attempting to continue.
+            if (!ConvertHelper.CanConvert())
+            {
+                //MessageBox.Show("FFmpeg was not found, please re-download Black Ops II Sound Studio.",
+                //                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                reportConsole.Report("FFmpeg was not found, please re-download Black Ops II Sound Studio.\n");
+                return false;
+            }
+
+            if (entry.Format == AudioFormat.XMA4)
+            {
+                //MessageBox.Show("Audio replacement for this format is currently not supported.",
+                //                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                reportConsole.Report("Audio replacement for this format is currently not supported.\n");
+                return false;
+            }
+
+            bool success = ReplaceAudioNoDialog(entry, filename, replaceAllManager);
+            return success;
+        }
+
+        private bool ReplaceAudioNoDialog(SndAssetBankEntry entry, string inputFile, ReplaceAllForm replaceAllManager)
+        {
+            // Begin conversion here.
+            var options = new ConvertOptions { AudioChannels = entry.ChannelCount, SampleRate = entry.SampleRate };
+            bool success = OnAudioReplacedNoDialog(entry, ConvertProgressForm.ConvertExternalProgressBar(inputFile, entry.Format, options, replaceAllManager), replaceAllManager);
+            return success;
+        }
+
+        private bool OnAudioReplacedNoDialog(SndAssetBankEntry entry, Stream newData, ReplaceAllForm replaceAllManager)
+        {
+            // unpack Replace Manager attributes
+            IProgress<string> reportConsole = replaceAllManager.reportConsole;
+
+            if (newData == null || newData.Length == 0)
+            {
+                //MessageBox.Show("Conversion failed, ensure the file you provided is valid.",
+                //                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                reportConsole.Report("Conversion failed, ensure the file you provided is valid.\n");
+                if (newData != null) newData.Close();
+                return false;
+            }
+
+
+            if (entry.Format == AudioFormat.PCMS16)
+            {
+                var sampleCount = newData.Length / (entry.ChannelCount * 2);
+                var duration = TimeSpan.FromMilliseconds(1000 * (float)sampleCount / entry.SampleRate);
+                if (duration > entry.Duration && duration.Subtract(entry.Duration).TotalSeconds >= 1)
+                {
+                    if (MessageBox.Show(
+                        "Duration mismatch detected. This is known to cause loading problems on single-player missions " +
+                        "and has not been tested on multiplayer.\n\n" +
+                        "Original Duration: " + FormatDuration(entry.Duration) + "\n" +
+                        "New Duration: " + FormatDuration(duration) + "\n\n" +
+                        "Are you sure you want to continue?",
+                        "Black Ops II Sound Studio", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Exclamation) == DialogResult.No)
+                    {
+                        newData.Close();
+                        return false;
+                    }
+                }
+                entry.Duration = duration;
+            }
+            else
+            {
+                var helper = new ConvertHelper();
+                entry.Duration = helper.GetDuration(newData);
+            }
+
+            entry.Data = new AudioDataStream(newData, (int)newData.Length);
+
+            foreach (DataGridViewRow row in audioEntriesDataGridView.Rows)
+            {
+                if (row.Tag != entry) continue;
+                foreach (DataGridViewCell cell in row.Cells)
+                    cell.Style.BackColor = Color.LightBlue;
+                //MessageBox.Show("Audio data has been successfully replaced.",
+                //                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                break;
+            }
+
+            return true;
         }
     }
 }
