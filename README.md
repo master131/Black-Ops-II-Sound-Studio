@@ -1,5 +1,12 @@
 # Black Ops II Sound Studio
-Allows for playback and editing of SABS/SABL files for Black Ops II/III.
+Modified version of Black Ops II Sound Studio by master131. This version adds a new feature under the Tools tab: the Replace Manager.
+The Replace Manager allows you to load and replace many sound files without having to choose them manually, adecuate for modding full Zombies maps to
+other languages. Said, for example, you want to change Origins to German. You only need to extract all sound files from the German .sabs file, open the English
+.sabs file and use the Replace Manager to tell it where are all the German sound files, it will take care of the rest.
+
+WARNING: The Replace Manager has yet to be heavily tested, which is why there is no warranty of it working correctly. Use at your own risk.
+
+This is all thanks to master131, who created the original program. Thank you!
 
 Replace Manager:
 ![](https://imgur.com/a/uPU8g1F)
@@ -35,6 +42,7 @@ This software uses a compiled/command-line version of [FFmpeg](http://ffmpeg.org
 This tool is in no way affiliated with Activision Blizzard or Treyarch and does not contain any copyrighted files from the game, "Black Ops II" or "Black Ops III".
 
 ## Credits:
+* master131
 * kokole
 * Red-EyeX32
 * Jakes625
