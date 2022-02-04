@@ -1,4 +1,4 @@
-# Black Ops II Sound Studio
+# Black Ops II Sound Studio Extended
 Modified version of Black Ops II Sound Studio by master131. This version adds a new feature under the Tools tab: the Replace Manager.
 The Replace Manager allows you to load and replace many sound files without having to choose them manually, adecuate for modding full Zombies maps to
 other languages. Said, for example, you want to change Origins to German. You only need to extract all sound files from the German .sabs file, open the English
@@ -9,7 +9,7 @@ WARNING: The Replace Manager has yet to be heavily tested, which is why there is
 This is all thanks to master131, who created the original program. Thank you!
 
 Replace Manager:
-![](https://imgur.com/a/uPU8g1F)
+![](https://github.com/tovaru/Black-Ops-II-Sound-Studio-Extended/tree/master/screenshots/replace_manager_ss.jpg?raw=true)
 
 ## Replace Manager Features:
 * Retrieves all files in a folder.
