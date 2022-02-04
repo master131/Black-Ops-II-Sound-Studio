@@ -9,7 +9,7 @@ WARNING: The Replace Manager has yet to be heavily tested, which is why there is
 This is all thanks to master131, who created the original program. Thank you!
 
 Replace Manager:
-![](https://github.com/tovaru/Black-Ops-II-Sound-Studio-Extended/tree/master/screenshots/replace_manager_ss.jpg?raw=true)
+![](https://github.com/tovaru/Black-Ops-II-Sound-Studio-Extended/blob/master/screenshots/replace_manager_ss.jpg?raw=true)
 
 ## Replace Manager Features:
 * Retrieves all files in a folder.
