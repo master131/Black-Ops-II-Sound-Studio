@@ -30,6 +30,7 @@ namespace Black_Ops_II_Sound_Studio_Extended
         public bool stopWhenNoMatch;
         public bool stopWhenReplaceFails;
         public bool applyDupFix;
+        public bool adaptFileNames;
 
         Task replaceTask;
 
@@ -65,7 +66,7 @@ namespace Black_Ops_II_Sound_Studio_Extended
         {
             using (CommonOpenFileDialog dialog = new CommonOpenFileDialog())
             {
-                dialog.InitialDirectory = "C:\\Users";
+                //dialog.InitialDirectory = "C:\\Users";
                 //dialog.Filters.Add(new CommonFileDialogFilter("Audio", "*.mp3;*.wav;*.flac;*.ogg;*.m4a;*.wma;*.xma"));
                 //dialog.Filters.Add(new CommonFileDialogFilter("Video", "*.avi;*.flv;*.mp4;*.webm;*.mkv;*.wmv;*.3gp"));
                 dialog.IsFolderPicker = true;
@@ -79,6 +80,11 @@ namespace Black_Ops_II_Sound_Studio_Extended
         private async void startButton_Click(object sender, EventArgs e)
         {
             // retrieve attributes for matching and replacing
+            stopWhenNoMatch = this.stopWhenNoMatchCheckBox.Checked;
+            stopWhenReplaceFails = this.stopWhenReplaceFailsComboBox.Checked;
+            applyDupFix = this.dupFixCheckBox.Checked;
+            adaptFileNames = this.adaptNamesCheckBox.Checked;
+
             path = this.folderTextBox.Text;
             if (String.IsNullOrEmpty(path.Trim()))
             {
@@ -93,48 +99,43 @@ namespace Black_Ops_II_Sound_Studio_Extended
                 return;
             }
 
-            if (this.sourceComboBox.SelectedItem == null)
+            if (adaptFileNames && (this.sourceComboBox.SelectedItem == null))
             {
                 MessageBox.Show("Choose a source platform.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            source = this.sourceComboBox.SelectedItem as string;
-            switch (source)
+            } else
             {
-                case "PC":
-                    source = "pc";
-                    break;
-                case "Xbox 360":
-                    source = "xenon";
-                    break;
+                source = this.sourceComboBox.SelectedItem as string;
+                switch (source)
+                {
+                    case "PC":
+                        source = "pc";
+                        break;
+                    case "Xbox 360":
+                        source = "xenon";
+                        break;
+                }
             }
 
-            if (this.targetComboBox.SelectedItem == null)
+
+            if (adaptFileNames && (this.targetComboBox.SelectedItem == null))
             {
                 MessageBox.Show("Choose a target platform.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            } else
+            {
+                target = this.targetComboBox.SelectedItem as string;
+                switch (target)
+                {
+                    case "PC":
+                        target = "pc";
+                        break;
+                    case "Xbox 360":
+                        target = "xenon";
+                        break;
+                }
             }
 
-            target = this.targetComboBox.SelectedItem as string;
-            switch (target)
-            {
-                case "PC":
-                    target = "pc";
-                    break;
-                case "Xbox 360":
-                    target = "xenon";
-                    break;
-            }
-            //if (this.extensionComboBox.SelectedItem == null)
-            //{
-            //    MessageBox.Show("Choose a file extension.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //extension = this.extensionComboBox.SelectedItem as string;
-            stopWhenNoMatch = this.stopWhenNoMatchCheckBox.Checked;
-            stopWhenReplaceFails = this.stopWhenReplaceFailsComboBox.Checked;
-            applyDupFix = this.dupFixCheckBox.Checked;
 
             // prepare token for cancellation so the process can be stopped
             tokenSource = new CancellationTokenSource();
@@ -142,9 +143,7 @@ namespace Black_Ops_II_Sound_Studio_Extended
 
             // prepare variables for the progress bars
             overallProgressBar.Minimum = 0;
-            //overallProgressBar.Maximum = files.Count();
             overallProgressBar.Value = 0;
-            //overallProgressLabel.Text = $"Replaced 0 of {overallProgressBar.Maximum} files";
             conversionProgressBar.Minimum = 0;
             conversionProgressBar.Maximum = 100;
             conversionProgressBar.Value = 0;
@@ -160,6 +159,7 @@ namespace Black_Ops_II_Sound_Studio_Extended
             });
             conversionProgress = new Progress<int>(percent =>
             {
+                percent = percent > 100 ? 100 : percent;
                 conversionProgressBar.Value = percent;
                 conversionProgressLabel.Text = $"{percent}%";
             });
@@ -244,6 +244,11 @@ namespace Black_Ops_II_Sound_Studio_Extended
             {
                 System.IO.File.WriteAllText(saveFileDialog1.FileName, reportRichTextBox.Text.Replace("\n", Environment.NewLine));
             }
+        }
+
+        private void adaptNamesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            nameAdaptingGroupBox.Enabled = adaptNamesCheckBox.Checked;
         }
     }
 }

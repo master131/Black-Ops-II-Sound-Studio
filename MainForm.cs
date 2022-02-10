@@ -797,6 +797,7 @@ namespace BlackOps2SoundStudio
             bool stopWhenNoMatch = replaceAllManager.stopWhenNoMatch;
             bool stopWhenReplaceFails = replaceAllManager.stopWhenReplaceFails;
             bool applyDupFix = replaceAllManager.applyDupFix;
+            bool adaptNameFiles = replaceAllManager.adaptFileNames;
             IProgress<int> overallProgressValue = replaceAllManager.overallProgress;
             IProgress<string> reportConsole = replaceAllManager.reportConsole;
             IProgress<int> matchCountReporter = replaceAllManager.matchCountReporter;
@@ -823,21 +824,28 @@ namespace BlackOps2SoundStudio
                     replaceAllManager.tokenSource.Token.ThrowIfCancellationRequested();
                 }
 
-                // adjust the filepath to match the target file pattern
-                string matchingName = Path.GetFileName(filepath) // remove filepath, only leaving the filename
-                    .Replace("."+source, "."+target) // change the platform
-                    .Replace(Path.GetExtension(filepath), ""); // remove file extension
-
-                // perform lookup and save (only when there are still entries left)
+                
+                string matchingName = Path.GetFileNameWithoutExtension(filepath); // remove filepath, only leaving the filename
                 SndAssetBankEntry snd = null;
-                if (matchedEntries.Count < _sndAliasBank.Entries.Count)
+                bool thereAreEntriesLeft = matchedEntries.Count < _sndAliasBank.Entries.Count;
+
+                // perform lookup (only when there are still entries left)
+                if (adaptNameFiles && thereAreEntriesLeft)
+                {
+                    // adjust the filepath to match the target file pattern
+                    matchingName = matchingName.Replace("." + source, "." + target); // change the platform
+                        //.Replace(Path.GetExtension(filepath), ""); // remove file extension
                     snd = this.GetEntryForName(matchingName);
+                } 
+                else if (thereAreEntriesLeft)
+                {
+                    snd = this.GetEntryForNameOnTable(matchingName);
+                }
                 else
                 {
                     reportConsole.Report("All sound files were already matched. Skipping all files left.\n");
                     break;
                 }
-
 
                 // skip duplicated files
                 if (snd != null && (matchedEntries.ContainsKey(snd) || unmatchedEntries.ContainsKey(filepath)))
@@ -853,7 +861,10 @@ namespace BlackOps2SoundStudio
                     //reportConsole.Report(Path.GetFileName(filepath) + " -> snd(" + snd.Identifier + "," + this.GetNameForEntry(snd, 0) + ")\n");
                 }
                 else
-                    unmatchedEntries.Add(filepath, matchingName);
+                {
+                    reportConsole.Report("Couldn't match " + matchingName + "\n");
+                    //unmatchedEntries.Add(filepath, matchingName);
+                }
             }
 
             reportConsole.Report("Finished matching files.\n");
@@ -861,7 +872,7 @@ namespace BlackOps2SoundStudio
             // create extra entry for duplicated voicelines (not to confuse with duplicated files)
             int dupCount = 0;
             int skippedDups = 0;
-            if (applyDupFix)
+            if (adaptNameFiles && applyDupFix)
             {
                 reportConsole.Report("Dup fix will be applied. All files containing '_m_' will have repeated entries using '_s_' instead.\n");
                 reportConsole.Report("Creating matching dups...\n");
@@ -915,7 +926,7 @@ namespace BlackOps2SoundStudio
                 }
             }
 
-            if (applyDupFix)
+            if (adaptNameFiles && applyDupFix)
                 reportConsole.Report("Finished generating and matching dups.\n");
 
             if (unmatchedEntries.Count > 0)
@@ -969,8 +980,9 @@ namespace BlackOps2SoundStudio
                 // check success result
                 if (!success)
                 {
-                    reportConsole.Report("File not replaced: ");
-                    reportConsole.Report(Path.GetFileName(matchedEntries[entry]) + " -> " + this.GetNameForEntry(entry, 0) + "\n");
+                    reportConsole.Report("Could not replace: ");
+                    //reportConsole.Report(Path.GetFileName(matchedEntries[entry]) + " -> " + this.GetNameForEntry(entry, 0) + "\n");
+                    reportConsole.Report(Path.GetFileName(matchedEntries[entry]) + " -> " + this.GetNameForEntryOnTable(entry) + "\n");
 
                     if (stopWhenReplaceFails)
                     {
@@ -1019,6 +1031,30 @@ namespace BlackOps2SoundStudio
             // get snd entry based on identifier
             SndAssetBankEntry snd = _sndAliasBank.Entries.FirstOrDefault(y => y.Identifier == identifier);
             return snd;
+        }
+
+        private SndAssetBankEntry GetEntryForNameOnTable(string name)
+        {
+            for (int i = 0; i < audioEntriesDataGridView.Rows.Count; i++)
+            {
+                DataGridViewRow row = audioEntriesDataGridView.Rows[i];
+                string entryName = (string)row.Cells[0].Value;
+                entryName = entryName.Replace(Path.GetExtension(entryName), ""); // remove file extension
+                if (entryName == name)
+                    return (SndAssetBankEntry)row.Tag;
+            }
+            return null;
+        }
+
+        private string GetNameForEntryOnTable(SndAssetBankEntry entry)
+        {
+            for (int i = 0; i < audioEntriesDataGridView.Rows.Count; i++)
+            {
+                DataGridViewRow row = audioEntriesDataGridView.Rows[i];
+                if (row.Tag == entry)
+                    return (string)row.Cells[0].Value;
+            }
+            return null;
         }
 
         private bool ReplaceManually(SndAssetBankEntry entry, string filename, ReplaceAllForm replaceAllManager)

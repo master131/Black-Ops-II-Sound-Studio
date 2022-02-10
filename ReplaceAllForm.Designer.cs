@@ -31,14 +31,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.openFolderButton = new System.Windows.Forms.Button();
             this.folderTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dupFixCheckBox = new System.Windows.Forms.CheckBox();
             this.stopWhenReplaceFailsComboBox = new System.Windows.Forms.CheckBox();
             this.stopWhenNoMatchCheckBox = new System.Windows.Forms.CheckBox();
-            this.targetComboBox = new System.Windows.Forms.ComboBox();
-            this.sourceComboBox = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.exportButton = new System.Windows.Forms.Button();
             this.reportRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -50,9 +44,18 @@
             this.label4 = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.adaptNamesCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.sourceComboBox = new System.Windows.Forms.ComboBox();
+            this.targetComboBox = new System.Windows.Forms.ComboBox();
+            this.dupFixCheckBox = new System.Windows.Forms.CheckBox();
+            this.nameAdaptingGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.nameAdaptingGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -65,7 +68,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(580, 44);
+            this.groupBox1.Size = new System.Drawing.Size(586, 44);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folder selection";
@@ -89,45 +92,13 @@
             this.folderTextBox.Size = new System.Drawing.Size(513, 20);
             this.folderTextBox.TabIndex = 0;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.dupFixCheckBox);
-            this.groupBox2.Controls.Add(this.stopWhenReplaceFailsComboBox);
-            this.groupBox2.Controls.Add(this.stopWhenNoMatchCheckBox);
-            this.groupBox2.Controls.Add(this.targetComboBox);
-            this.groupBox2.Controls.Add(this.sourceComboBox);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(9, 58);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(580, 121);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Options";
-            // 
-            // dupFixCheckBox
-            // 
-            this.dupFixCheckBox.AutoSize = true;
-            this.dupFixCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dupFixCheckBox.Location = new System.Drawing.Point(304, 72);
-            this.dupFixCheckBox.Name = "dupFixCheckBox";
-            this.dupFixCheckBox.Size = new System.Drawing.Size(159, 20);
-            this.dupFixCheckBox.TabIndex = 10;
-            this.dupFixCheckBox.Text = "Apply dup voiceline fix";
-            this.dupFixCheckBox.UseVisualStyleBackColor = true;
-            // 
             // stopWhenReplaceFailsComboBox
             // 
             this.stopWhenReplaceFailsComboBox.AutoSize = true;
             this.stopWhenReplaceFailsComboBox.Checked = true;
             this.stopWhenReplaceFailsComboBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopWhenReplaceFailsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopWhenReplaceFailsComboBox.Location = new System.Drawing.Point(304, 46);
+            this.stopWhenReplaceFailsComboBox.Location = new System.Drawing.Point(16, 42);
             this.stopWhenReplaceFailsComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.stopWhenReplaceFailsComboBox.Name = "stopWhenReplaceFailsComboBox";
             this.stopWhenReplaceFailsComboBox.Size = new System.Drawing.Size(164, 20);
@@ -141,61 +112,13 @@
             this.stopWhenNoMatchCheckBox.Checked = true;
             this.stopWhenNoMatchCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.stopWhenNoMatchCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopWhenNoMatchCheckBox.Location = new System.Drawing.Point(304, 19);
+            this.stopWhenNoMatchCheckBox.Location = new System.Drawing.Point(16, 18);
             this.stopWhenNoMatchCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.stopWhenNoMatchCheckBox.Name = "stopWhenNoMatchCheckBox";
             this.stopWhenNoMatchCheckBox.Size = new System.Drawing.Size(145, 20);
             this.stopWhenNoMatchCheckBox.TabIndex = 6;
             this.stopWhenNoMatchCheckBox.Text = "Stop when no match";
             this.stopWhenNoMatchCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // targetComboBox
-            // 
-            this.targetComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.targetComboBox.FormattingEnabled = true;
-            this.targetComboBox.Items.AddRange(new object[] {
-            "PC"});
-            this.targetComboBox.Location = new System.Drawing.Point(141, 41);
-            this.targetComboBox.Margin = new System.Windows.Forms.Padding(2);
-            this.targetComboBox.Name = "targetComboBox";
-            this.targetComboBox.Size = new System.Drawing.Size(92, 21);
-            this.targetComboBox.TabIndex = 5;
-            // 
-            // sourceComboBox
-            // 
-            this.sourceComboBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.sourceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.sourceComboBox.FormattingEnabled = true;
-            this.sourceComboBox.Items.AddRange(new object[] {
-            "PC",
-            "Xbox 360"});
-            this.sourceComboBox.Location = new System.Drawing.Point(141, 16);
-            this.sourceComboBox.Margin = new System.Windows.Forms.Padding(2);
-            this.sourceComboBox.Name = "sourceComboBox";
-            this.sourceComboBox.Size = new System.Drawing.Size(92, 21);
-            this.sourceComboBox.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(33, 41);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 16);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Target platform:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(33, 16);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Source platform:";
             // 
             // groupBox3
             // 
@@ -215,7 +138,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(580, 324);
+            this.groupBox3.Size = new System.Drawing.Size(586, 324);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Progress";
@@ -239,7 +162,7 @@
             this.reportRichTextBox.Location = new System.Drawing.Point(5, 126);
             this.reportRichTextBox.Name = "reportRichTextBox";
             this.reportRichTextBox.ReadOnly = true;
-            this.reportRichTextBox.Size = new System.Drawing.Size(570, 152);
+            this.reportRichTextBox.Size = new System.Drawing.Size(576, 152);
             this.reportRichTextBox.TabIndex = 5;
             this.reportRichTextBox.Text = "";
             // 
@@ -306,7 +229,7 @@
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.startButton.Location = new System.Drawing.Point(481, 511);
+            this.startButton.Location = new System.Drawing.Point(487, 511);
             this.startButton.Margin = new System.Windows.Forms.Padding(2);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(101, 22);
@@ -318,7 +241,7 @@
             // stopButton
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.stopButton.Location = new System.Drawing.Point(422, 511);
+            this.stopButton.Location = new System.Drawing.Point(428, 511);
             this.stopButton.Margin = new System.Windows.Forms.Padding(2);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(56, 22);
@@ -327,15 +250,120 @@
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.adaptNamesCheckBox);
+            this.groupBox4.Controls.Add(this.stopWhenNoMatchCheckBox);
+            this.groupBox4.Controls.Add(this.stopWhenReplaceFailsComboBox);
+            this.groupBox4.Location = new System.Drawing.Point(9, 59);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(337, 121);
+            this.groupBox4.TabIndex = 5;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Options";
+            // 
+            // adaptNamesCheckBox
+            // 
+            this.adaptNamesCheckBox.AutoSize = true;
+            this.adaptNamesCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.adaptNamesCheckBox.Location = new System.Drawing.Point(16, 66);
+            this.adaptNamesCheckBox.Name = "adaptNamesCheckBox";
+            this.adaptNamesCheckBox.Size = new System.Drawing.Size(126, 20);
+            this.adaptNamesCheckBox.TabIndex = 8;
+            this.adaptNamesCheckBox.Text = "Adapt file names";
+            this.adaptNamesCheckBox.UseVisualStyleBackColor = true;
+            this.adaptNamesCheckBox.CheckedChanged += new System.EventHandler(this.adaptNamesCheckBox_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(13, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Source platform:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(13, 41);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 16);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Target platform:";
+            // 
+            // sourceComboBox
+            // 
+            this.sourceComboBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.sourceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sourceComboBox.FormattingEnabled = true;
+            this.sourceComboBox.Items.AddRange(new object[] {
+            "PC",
+            "Xbox 360"});
+            this.sourceComboBox.Location = new System.Drawing.Point(121, 16);
+            this.sourceComboBox.Margin = new System.Windows.Forms.Padding(2);
+            this.sourceComboBox.Name = "sourceComboBox";
+            this.sourceComboBox.Size = new System.Drawing.Size(92, 21);
+            this.sourceComboBox.TabIndex = 4;
+            // 
+            // targetComboBox
+            // 
+            this.targetComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.targetComboBox.FormattingEnabled = true;
+            this.targetComboBox.Items.AddRange(new object[] {
+            "PC"});
+            this.targetComboBox.Location = new System.Drawing.Point(121, 41);
+            this.targetComboBox.Margin = new System.Windows.Forms.Padding(2);
+            this.targetComboBox.Name = "targetComboBox";
+            this.targetComboBox.Size = new System.Drawing.Size(92, 21);
+            this.targetComboBox.TabIndex = 5;
+            // 
+            // dupFixCheckBox
+            // 
+            this.dupFixCheckBox.AutoSize = true;
+            this.dupFixCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dupFixCheckBox.Location = new System.Drawing.Point(16, 67);
+            this.dupFixCheckBox.Name = "dupFixCheckBox";
+            this.dupFixCheckBox.Size = new System.Drawing.Size(159, 20);
+            this.dupFixCheckBox.TabIndex = 10;
+            this.dupFixCheckBox.Text = "Apply dup voiceline fix";
+            this.dupFixCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // nameAdaptingGroupBox
+            // 
+            this.nameAdaptingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameAdaptingGroupBox.Controls.Add(this.dupFixCheckBox);
+            this.nameAdaptingGroupBox.Controls.Add(this.targetComboBox);
+            this.nameAdaptingGroupBox.Controls.Add(this.sourceComboBox);
+            this.nameAdaptingGroupBox.Controls.Add(this.label2);
+            this.nameAdaptingGroupBox.Controls.Add(this.label1);
+            this.nameAdaptingGroupBox.Enabled = false;
+            this.nameAdaptingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameAdaptingGroupBox.Location = new System.Drawing.Point(351, 58);
+            this.nameAdaptingGroupBox.Margin = new System.Windows.Forms.Padding(2);
+            this.nameAdaptingGroupBox.Name = "nameAdaptingGroupBox";
+            this.nameAdaptingGroupBox.Padding = new System.Windows.Forms.Padding(2);
+            this.nameAdaptingGroupBox.Size = new System.Drawing.Size(244, 121);
+            this.nameAdaptingGroupBox.TabIndex = 1;
+            this.nameAdaptingGroupBox.TabStop = false;
+            this.nameAdaptingGroupBox.Text = "Name Adapting";
+            // 
             // ReplaceAllForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 538);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(602, 538);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.stopButton);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.nameAdaptingGroupBox);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ReplaceAllForm";
@@ -343,10 +371,12 @@
             this.Text = "Replace All Manager";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.nameAdaptingGroupBox.ResumeLayout(false);
+            this.nameAdaptingGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -356,13 +386,8 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button openFolderButton;
         private System.Windows.Forms.TextBox folderTextBox;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox stopWhenReplaceFailsComboBox;
         private System.Windows.Forms.CheckBox stopWhenNoMatchCheckBox;
-        private System.Windows.Forms.ComboBox targetComboBox;
-        private System.Windows.Forms.ComboBox sourceComboBox;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -373,7 +398,14 @@
         private System.Windows.Forms.Label conversionProgressLabel;
         private System.Windows.Forms.Label overallProgressLabel;
         private System.Windows.Forms.RichTextBox reportRichTextBox;
-        private System.Windows.Forms.CheckBox dupFixCheckBox;
         private System.Windows.Forms.Button exportButton;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox adaptNamesCheckBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox sourceComboBox;
+        private System.Windows.Forms.ComboBox targetComboBox;
+        private System.Windows.Forms.CheckBox dupFixCheckBox;
+        private System.Windows.Forms.GroupBox nameAdaptingGroupBox;
     }
 }

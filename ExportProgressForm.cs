@@ -41,7 +41,7 @@ namespace BlackOps2SoundStudio
                 var entry = _sndAliasBank.Entries[i];
                 string relativePath;
                 if (!_useOriginalTreeStructure || !SndAliasNameDatabase.Names.TryGetValue(entry.Identifier, out relativePath))
-                    relativePath = "Sound " + (i + 1) + SndAliasBankHelper.GetExtensionFromFormat(entry.Format);
+                    relativePath = "Sound #" + (i + 1) + SndAliasBankHelper.GetExtensionFromFormat(entry.Format);
                 else
                     relativePath += SndAliasBankHelper.GetExtensionFromFormat(entry.Format);
 
