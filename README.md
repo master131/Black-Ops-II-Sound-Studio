@@ -20,7 +20,7 @@ Replace Manager:
 
 ## New Features:
 * Added the Replace Manager.
-* Added support for Black Ops3 SABS/SABL files.
+* Added support for Black Ops 3 SABS/SABL files.
 
 ## Limitations:
 * Audio replacement of XMA audio entries are currently not supported as an encoder hasn't been added yet.
