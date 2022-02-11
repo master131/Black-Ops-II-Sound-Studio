@@ -602,12 +602,12 @@ namespace BlackOps2SoundStudio
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_sndAliasBank.Version != SndAliasConstants.Version_T6)
-            {
-                MessageBox.Show("Save is only supported for Black Ops II.",
-                    "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            //if (_sndAliasBank.Version != SndAliasConstants.Version_T6)
+            //{
+            //    MessageBox.Show("Save is only supported for Black Ops II.",
+            //        "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    return;
+            //}
 
             try
             {
@@ -687,12 +687,12 @@ namespace BlackOps2SoundStudio
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_sndAliasBank.Version != SndAliasConstants.Version_T6)
-            {
-                MessageBox.Show("Save is only supported for Black Ops II.",
-                    "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
+            //if (_sndAliasBank.Version != SndAliasConstants.Version_T6)
+            //{
+            //    MessageBox.Show("Save is only supported for Black Ops II.",
+            //        "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    return;
+            //}
 
             using (var saveFileDialog = new SaveFileDialog())
             {
