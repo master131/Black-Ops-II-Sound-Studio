@@ -42,6 +42,7 @@
             this.audioEntryFormatColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.audioEntryLoopColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.audioEntryChannelsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioEntrySampleCountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.audioEntrySampleRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.audioEntryHashColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.audioEntryContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -189,6 +190,7 @@
             this.audioEntryFormatColumn,
             this.audioEntryLoopColumn,
             this.audioEntryChannelsColumn,
+            this.audioEntrySampleCountColumn,
             this.audioEntrySampleRateColumn,
             this.audioEntryHashColumn});
             this.audioEntriesDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -253,6 +255,13 @@
             this.audioEntryChannelsColumn.Name = "audioEntryChannelsColumn";
             this.audioEntryChannelsColumn.ReadOnly = true;
             this.audioEntryChannelsColumn.Width = 96;
+            // 
+            // audioEntrySampleRateColumn
+            // 
+            this.audioEntrySampleCountColumn.HeaderText = "Sample Count";
+            this.audioEntrySampleCountColumn.Name = "audioEntrySampleCountColumn";
+            this.audioEntrySampleCountColumn.ReadOnly = true;
+            this.audioEntrySampleCountColumn.Width = 60;
             // 
             // audioEntrySampleRateColumn
             // 
@@ -624,6 +633,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn audioEntryFormatColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn audioEntryLoopColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn audioEntryChannelsColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn audioEntrySampleCountColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn audioEntrySampleRateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn audioEntryHashColumn;
         private System.Windows.Forms.ToolStripMenuItem fixChecksumsToolStripMenuItem;

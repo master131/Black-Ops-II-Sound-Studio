@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using BlackOps2SoundStudio.Decoders;
 using BlackOps2SoundStudio.Encoders;
 using BlackOps2SoundStudio.Format;
@@ -7,6 +8,17 @@ namespace BlackOps2SoundStudio
 {
     static class SndAliasBankHelper
     {
+        private static uint ByteswapU32(uint value)
+        {
+            return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
+                   (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
+        }
+        private static ushort ByteswapU16(ushort value)
+        {
+            return (ushort)((value & 0xFFU) << 8 | (value & 0xFF00U) >> 8);
+        }
+
+
         public static string GetExtensionFromFormat(AudioFormat format)
         {
             if (format == AudioFormat.FLAC)
@@ -30,6 +42,8 @@ namespace BlackOps2SoundStudio
                 return "MP3";
             if (format == AudioFormat.XMA4)
                 return "XMA";
+            if (format == AudioFormat.InterweavedDSP)
+                return "DSP";
 
             return "Unknown";
         }
@@ -89,7 +103,39 @@ namespace BlackOps2SoundStudio
 
             if (entry.Format == AudioFormat.PCMS16)
                 return DecodeHeaderlessWav(entry);
+            if (entry.Format == AudioFormat.InterweavedDSP)
+                return DecodeInterweavedDSP(entry);
             return AddXMAHeader(entry);
+        }
+
+        public static Stream DecodeInterweavedDSP(SndAssetBankEntry entry)
+        {
+            // https://wiki.axiodl.com/w/index.php?title=DSP_(File_Format)
+            var data = entry.Data.Get();
+            var ms = new MemoryStream();
+            var writer = new BinaryWriter(ms);
+            for (int x = 0; x < entry.ChannelCount; x++) { // Each channel needs its own DSP header.
+                writer.Write( // Wii U T6 likes to lie about its sample rate. I do not know why.
+                    ByteswapU32((uint)((double)entry.SampleCount / (double)entry.SampleRate * 32000))
+                );
+                writer.Write(ByteswapU32((uint)(data.Length - 0xA0))); // 0xA0 is where ADPCM audio data starts in this custom file format.
+                writer.Write(ByteswapU32(32000)); // Sample Rate (hardcoded)
+                writer.Write(ByteswapU16(Convert.ToUInt16(entry.Loop))); // Is Looped?
+                writer.Write((ushort)0); // Format (always 0)
+                writer.Write(0); // For loop points, the start and end are written in.
+                writer.Write(ByteswapU32((uint)(data.Length - 0xA0))); // 0xA0 is where ADPCM audio data starts in this custom file format.
+                writer.Write(0); // Current address (always 0)
+                writer.Write(data, 8 + x * 0x30, 0x2E); // 0x1C to 0x48 in the DSP header are already formulated for us in the custom file format.
+                writer.Write(ByteswapU16(entry.ChannelCount)); // Channel count
+                writer.Write(ByteswapU16(0x2000)); // Chunk size
+                writer.Write(new byte[0x12] {
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                }); // Pad out the next 0x12 bytes to finish the header.
+            }
+            writer.Write(data, 0xA0, data.Length - 0xA0);
+            ms.Position = 0;
+            return ms;
         }
     }
 }

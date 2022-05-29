@@ -169,6 +169,7 @@ namespace BlackOps2SoundStudio
                     SndAliasBankHelper.GetFormatName(entry.Format),
                     entry.Loop,
                     entry.ChannelCount,
+                    entry.SampleCount,
                     FormatSampleRate(entry.SampleRate),
                     BitConverter.ToString(_sndAliasBank.Checksums[i]).Replace("-", ""));
                 row.ContextMenuStrip = audioEntryContextMenuStrip;
@@ -333,7 +334,20 @@ namespace BlackOps2SoundStudio
                         provider = _wavFileReader;
                     }
                 }
-                
+                else if (entry.Format == AudioFormat.InterweavedDSP)
+                {
+                    Invoke(new MethodInvoker(() => currentTimetoolStripLabel.Text = "Please wait, decoding audio..."));
+
+                    using (var dspStream = SndAliasBankHelper.DecodeInterweavedDSP(entry))
+                        _audioStream = ConvertHelper.ConvertDSPToWAV(dspStream);
+
+                    if (_audioStream != null)
+                    {
+                        _wavFileReader = new WaveFileReader(_audioStream);
+                        provider = _wavFileReader;
+                    }
+                }
+
                 // Begin playing the audio on the UI thread.
                 Invoke(new MethodInvoker(() =>
                 {
@@ -583,7 +597,7 @@ namespace BlackOps2SoundStudio
 
             var entry = (SndAssetBankEntry) audioEntriesDataGridView.SelectedRows[0].Tag;
 
-            if (entry.Format == AudioFormat.XMA4)
+            if (entry.Format == AudioFormat.XMA4 || entry.Format == AudioFormat.InterweavedDSP)
             {
                 MessageBox.Show("Audio replacement for this format is currently not supported.",
                                 "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

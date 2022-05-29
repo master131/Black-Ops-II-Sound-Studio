@@ -5,6 +5,7 @@
         PCMS16,
         XMA4 = 0x4,
         MP3 = 0x5,
-        FLAC = 0x8
+        FLAC = 0x8,
+        InterweavedDSP = 0x9,
     }
 }

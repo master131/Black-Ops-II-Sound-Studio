@@ -48,6 +48,7 @@ namespace BlackOps2SoundStudio.Converter
     {
         private const string FFmpegPath = @"ffmpeg\bin\ffmpeg.exe";
         private const string ToWavPath = @"towav\towav.exe";
+        private const string VGMStreamPath = @"vgmstream\vgmstream.exe";
         private AsyncOperation _async;
 
         public event EventHandler<ConversionProgressChangedEventArgs> ConversionProgressChanged;
@@ -137,6 +138,43 @@ namespace BlackOps2SoundStudio.Converter
 
             // Find the output file.
             var outputPath = Path.Combine(Path.GetTempPath(), name + ".wav");
+            if (File.Exists(outputPath))
+            {
+                TemporaryFiles.Add(outputPath);
+                return File.Open(outputPath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            }
+
+            return null;
+        }
+
+        public static Stream ConvertDSPToWAV(Stream input)
+        {
+            if (!File.Exists(ToWavPath))
+                return null;
+
+            // Create a temp file stream.
+            var name = Guid.NewGuid().ToString();
+            var temp = Path.Combine(Path.GetTempPath(), name + ".dsp");
+            using (var fs = File.Open(temp, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+            {
+                // Write the data to the file and mark as temporary.
+                TemporaryFiles.Add(temp);
+                input.CopyTo(fs);
+                fs.Flush();
+            }
+
+            // Begin decoding.
+            var psi = new ProcessStartInfo(Path.GetFullPath(VGMStreamPath), "\"" + temp + "\" -i") // Force VGMStream to ignore looping information.
+            {
+                WorkingDirectory = Path.GetTempPath(),
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+            var p = Process.Start(psi);
+            p.WaitForExit();
+
+            // Find the output file.
+            var outputPath = Path.Combine(Path.GetTempPath(), name + ".dsp.wav");
             if (File.Exists(outputPath))
             {
                 TemporaryFiles.Add(outputPath);
