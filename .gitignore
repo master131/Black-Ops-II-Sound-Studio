@@ -1,4 +1,3 @@
-obj/
 bin/Release/Protected/Black Ops II Sound Studio.exe
 bin/Release/Protected/
 bin/Debug/Identifiers/
@@ -9,5 +8,4 @@ bin/Debug/Black Ops II Sound Studio.vshost.exe
 bin/Debug/Black Ops II Sound Studio.pdb
 bin/Debug/Black Ops II Sound Studio.exe.config
 bin/Debug/Black Ops II Sound Studio.exe
-bin/Debug/Names.xml
 Black Ops II Sound Studio.csproj.DotSettings

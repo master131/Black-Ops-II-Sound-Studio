@@ -1,0 +1,124 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.0": {
+      "NAudio/1.8.5": {
+        "type": "package",
+        "compile": {
+          "lib/net35/NAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NAudio.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.0/win": {
+      "NAudio/1.8.5": {
+        "type": "package",
+        "compile": {
+          "lib/net35/NAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NAudio.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.0/win-x64": {
+      "NAudio/1.8.5": {
+        "type": "package",
+        "compile": {
+          "lib/net35/NAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NAudio.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.0/win-x86": {
+      "NAudio/1.8.5": {
+        "type": "package",
+        "compile": {
+          "lib/net35/NAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NAudio.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NAudio/1.8.5": {
+      "sha512": "ATbzKXZtbyXKnNfHlpPC+SLGnX9pqZ4/YQfL9Vd1CPYdBgw0v2vas5s0ZhLpFyimt3n3hYvyElyarowpeaO+Tg==",
+      "type": "package",
+      "path": "naudio/1.8.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/NAudio.XML",
+        "lib/net35/NAudio.dll",
+        "lib/uap10.0/NAudio.Universal.XML",
+        "lib/uap10.0/NAudio.Universal.dll",
+        "license.txt",
+        "naudio.1.8.5.nupkg.sha512",
+        "naudio.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.0": [
+      "NAudio >= 1.8.5"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\itsmeft24\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\itsmeft24\\Downloads\\Black-Ops-II-Sound-Studio-master\\Black-Ops-II-Sound-Studio-master\\Black Ops II Sound Studio.csproj",
+      "projectName": "Black Ops II Sound Studio",
+      "projectPath": "C:\\Users\\itsmeft24\\Downloads\\Black-Ops-II-Sound-Studio-master\\Black-Ops-II-Sound-Studio-master\\Black Ops II Sound Studio.csproj",
+      "packagesPath": "C:\\Users\\itsmeft24\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\itsmeft24\\Downloads\\Black-Ops-II-Sound-Studio-master\\Black-Ops-II-Sound-Studio-master\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "C:\\Users\\itsmeft24\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net40"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net40": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net40": {
+        "dependencies": {
+          "NAudio": {
+            "target": "Package",
+            "version": "[1.8.5, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}

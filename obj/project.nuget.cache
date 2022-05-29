@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WCbj/qAYvJxCmUzj/oAKpIDB61jx4awPDjjZhDKsYI8wCpwoOfZPMEzUI3Xvq3iYFr8MP70EDk3psZnTJQ0HoQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\itsmeft24\\Downloads\\Black-Ops-II-Sound-Studio-master\\Black-Ops-II-Sound-Studio-master\\Black Ops II Sound Studio.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\itsmeft24\\.nuget\\packages\\naudio\\1.8.5\\naudio.1.8.5.nupkg.sha512"
+  ],
+  "logs": []
+}
