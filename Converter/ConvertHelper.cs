@@ -47,7 +47,6 @@ namespace BlackOps2SoundStudio.Converter
     class ConvertHelper
     {
         private const string FFmpegPath = @"ffmpeg\bin\ffmpeg.exe";
-        private const string ToWavPath = @"towav\towav.exe";
         private const string VGMStreamPath = @"vgmstream\vgmstream.exe";
         private AsyncOperation _async;
 
@@ -113,7 +112,7 @@ namespace BlackOps2SoundStudio.Converter
 
         public static Stream ConvertXMAToWAV(Stream input)
         {
-            if (!File.Exists(ToWavPath))
+            if (!File.Exists(VGMStreamPath))
                 return null;
 
             // Create a temp file stream.
@@ -128,7 +127,8 @@ namespace BlackOps2SoundStudio.Converter
             }
 
             // Begin decoding.
-            var psi = new ProcessStartInfo(Path.GetFullPath(ToWavPath), "\"" + temp + "\"") {
+            var psi = new ProcessStartInfo(Path.GetFullPath(VGMStreamPath), "\"" + temp + "\" -i") // Force VGMStream to ignore looping information.
+            {
                 WorkingDirectory = Path.GetTempPath(),
                 CreateNoWindow = true,
                 UseShellExecute = false
@@ -137,7 +137,7 @@ namespace BlackOps2SoundStudio.Converter
             p.WaitForExit();
 
             // Find the output file.
-            var outputPath = Path.Combine(Path.GetTempPath(), name + ".wav");
+            var outputPath = Path.Combine(Path.GetTempPath(), name + ".xma.wav");
             if (File.Exists(outputPath))
             {
                 TemporaryFiles.Add(outputPath);
@@ -149,7 +149,7 @@ namespace BlackOps2SoundStudio.Converter
 
         public static Stream ConvertDSPToWAV(Stream input)
         {
-            if (!File.Exists(ToWavPath))
+            if (!File.Exists(VGMStreamPath))
                 return null;
 
             // Create a temp file stream.
