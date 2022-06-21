@@ -8,17 +8,6 @@ namespace BlackOps2SoundStudio
 {
     static class SndAliasBankHelper
     {
-        private static uint ByteswapU32(uint value)
-        {
-            return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
-                   (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
-        }
-        private static ushort ByteswapU16(ushort value)
-        {
-            return (ushort)((value & 0xFFU) << 8 | (value & 0xFF00U) >> 8);
-        }
-
-
         public static string GetExtensionFromFormat(AudioFormat format)
         {
             if (format == AudioFormat.FLAC)
