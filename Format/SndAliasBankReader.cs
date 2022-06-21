@@ -174,7 +174,7 @@ namespace BlackOps2SoundStudio.Format
             {
                 var entry = new SndAssetBankEntryIW7
                 {
-                    Identifier = _reader.ReadInt32(),
+                    Identifier = _reader.ReadUInt32(),
                     Size = _reader.ReadInt32(),
                     Unknown = _reader.ReadInt32(),
                     SampleCount = _reader.ReadInt32(),
@@ -204,7 +204,7 @@ namespace BlackOps2SoundStudio.Format
             {
                 var entry = new SndAssetBankEntryT7
                 {
-                    Identifier = _reader.ReadInt32(),
+                    Identifier = _reader.ReadUInt32(),
                     Size = _reader.ReadInt32(),
                     SampleCount = _reader.ReadInt32(),
                     Pad = _reader.ReadInt32(),
@@ -226,7 +226,7 @@ namespace BlackOps2SoundStudio.Format
             {
                 var entry = new SndAssetBankEntryT6
                 {
-                    Identifier = _reader.ReadInt32(),
+                    Identifier = _reader.ReadUInt32(),
                     Size = _reader.ReadInt32(),
                     Offset = _reader.ReadInt32(),
                     SampleCount = _reader.ReadInt32(),

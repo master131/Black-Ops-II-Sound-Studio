@@ -40,7 +40,7 @@ namespace BlackOps2SoundStudio.Format
 
     class SndAssetBankEntry
     {
-        public int Identifier { get; set; }
+        public uint Identifier { get; set; }
         public int Size { get; set; }
         public long Offset { get; set; }
         public int SampleCount { get; set; }

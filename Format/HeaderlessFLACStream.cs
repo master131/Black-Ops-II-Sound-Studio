@@ -19,14 +19,7 @@ namespace BlackOps2SoundStudio.Format
             BaseStream = baseStream;
             Entry = entry;
         }
-
-        private static byte[] Reverse(byte[] arr, int count = -1) {
-            if (count > 0)
-                Array.Resize(ref arr, count);
-            Array.Reverse(arr);
-            return arr;
-        }
-
+        
         private void CreateHeader() {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
@@ -41,21 +34,21 @@ namespace BlackOps2SoundStudio.Format
                 // METADATA_BLOCK
                 // ---------------------
                 // METADATA_BLOCK_HEADER
-                bw.Write((byte) (128)); // Last-metadata-block flag + STREAMINFO block type
-                bw.Write(Reverse(BitConverter.GetBytes(34), 3)); // STREAMINFO block size (24-bit int)
+                bw.Write((byte)(128)); // Last-metadata-block flag + STREAMINFO block type
+                bw.Write(Utilities.ByteswapU24(34)); // STREAMINFO block size (24-bit int)
 
                 // ---------------------
                 // METADATA_BLOCK_STREAMINFO
                 // ---------------------
-                bw.Write(Reverse(BitConverter.GetBytes((ushort) 0x400))); // Minimum block size (in samples)
-                bw.Write(Reverse(BitConverter.GetBytes((ushort) 0x400))); // Minimum block size (in samples)
+                bw.Write(Utilities.ByteswapU16(0x400)); // Minimum block size (in samples)
+                bw.Write(Utilities.ByteswapU16(0x400)); // Minimum block size (in samples)
                 bw.Write(new byte[3]); // Minimum frame size (in bytes), can be 0 if unknown
                 bw.Write(new byte[3]); // Maximum frame size (in bytes), can be 0 if unknown
                 ulong data = (ulong)Entry.SampleRate << 44; // Sample rate in Hz.
                 data += ((ulong)Entry.ChannelCount - 1) << 41; // (number of channels)-1
-                data += (ulong) 15 << 36; // (bits per sample)-1, we assume 16-bits per sample
+                data += (ulong)15 << 36; // (bits per sample)-1, we assume 16-bits per sample
                 data += (ulong)Entry.SampleCount;
-                bw.Write(Reverse(BitConverter.GetBytes(data)));
+                bw.Write(Utilities.ByteswapU64(data));
 
                 bw.Write(0L); /* MD5 */
                 bw.Write(0L); /* MD5 */
