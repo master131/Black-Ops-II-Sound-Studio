@@ -11,6 +11,7 @@ using BlackOps2SoundStudio.Decoders;
 using BlackOps2SoundStudio.Encoders;
 using BlackOps2SoundStudio.Format;
 using NAudio.Wave;
+using NLayer.NAudioSupport;
 
 namespace BlackOps2SoundStudio
 {
@@ -24,7 +25,7 @@ namespace BlackOps2SoundStudio
         private string _currentPath;
 
         private WaveFileReader _wavFileReader;
-        private Mp3FileReader _mp3FileReader;
+        private Mp3FileReaderBase _mp3FileReader;
 
         public MainForm()
         {
@@ -318,7 +319,8 @@ namespace BlackOps2SoundStudio
                 else if (entry.Format == AudioFormat.MP3)
                 {
                     _audioStream = new MemoryStream(entry.Data.Get());
-                    _mp3FileReader = new Mp3FileReader(_audioStream);
+                    var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
+                    _mp3FileReader = new Mp3FileReaderBase(_audioStream, builder);
                     provider = _mp3FileReader;
                 }
                 else if (entry.Format == AudioFormat.XMA4)
