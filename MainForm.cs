@@ -1001,6 +1001,7 @@ namespace BlackOps2SoundStudio
             if (adaptNameFiles && applyDupFix)
                 reportConsole.Report("Finished generating and matching dups.\n");
 
+            // report unmatched entries
             if (unmatchedEntries.Count > 0)
             {
                 reportConsole.Report("Not all entries matched.\n");
@@ -1036,6 +1037,7 @@ namespace BlackOps2SoundStudio
             reportConsole.Report("--------------------------\n");
             reportConsole.Report("REPLACING RESULTS\n");
             reportConsole.Report("Replacing sound files...\n");
+            if(skipConversion) reportConsole.Report("Skipping conversion for all files.");
             int replaceCount = 0;
             foreach (SndAssetBankEntry entry in matchedEntries.Keys)
             {
@@ -1158,10 +1160,47 @@ namespace BlackOps2SoundStudio
 
         private bool ReplaceAudioNoDialog(SndAssetBankEntry entry, string inputFile, ReplaceAllForm replaceAllManager)
         {
-            // Begin conversion here.
-            var options = new ConvertOptions { AudioChannels = entry.ChannelCount, SampleRate = entry.SampleRate };
-            bool success = OnAudioReplacedNoDialog(entry, ConvertProgressForm.ConvertExternalProgressBar(inputFile, entry.Format, options, replaceAllManager), replaceAllManager);
-            return success;
+            if (skipConversion)
+            {
+                using (var reader = new AudioFileReader(inputFile))
+                {
+                    // Get audio info
+                    String inputExtension = (new FileInfo(inputFile)).Extension;
+                    int inputSampleRate = reader.WaveFormat.SampleRate;
+                    int inputChannels = reader.WaveFormat.Channels;
+
+                    // Check if input file matches target entry
+                    if (!inputExtension.Equals("." + SndAssetBankEntry.formatToString(entry.Format)))
+                    {
+                        replaceAllManager.reportConsole.Report("Input audio file has a different format than the target audio. Disable Skip Conversion or convert it manually.");
+                        return false;
+                    }
+                    if (inputSampleRate != entry.SampleRate)
+                    {
+                        replaceAllManager.reportConsole.Report("Input audio file has a different sample rate than the target audio. Disable Skip Conversion or convert it manually.");
+                        return false;
+                    }
+                    if (inputChannels != entry.ChannelCount)
+                    {
+                        replaceAllManager.reportConsole.Report("Input audio file has a different channel count than the target audio. Disable Skip Conversion conversion or convert it manually.");
+                        return false;
+                    }
+                }
+
+                // Create audio stream and replace
+                using (FileStream fs = new FileStream(inputFile, FileMode.Open, FileAccess.ReadWrite))
+                {
+                    Stream audioCopy = copyFile(fs);
+                    return OnAudioReplacedNoDialog(entry, audioCopy, replaceAllManager);
+                }
+            }
+            else
+            {
+                // Begin conversion here.
+                var options = new ConvertOptions { AudioChannels = entry.ChannelCount, SampleRate = entry.SampleRate };
+                bool success = OnAudioReplacedNoDialog(entry, ConvertProgressForm.ConvertExternalProgressBar(inputFile, entry.Format, options, replaceAllManager), replaceAllManager);
+                return success;
+            }
         }
 
         private bool OnAudioReplacedNoDialog(SndAssetBankEntry entry, Stream newData, ReplaceAllForm replaceAllManager)
