@@ -62,5 +62,30 @@ namespace BlackOps2SoundStudio.Format
                 SampleCount = (int) (value.TotalMilliseconds * SampleRate / 1000);
             }
         }
+
+        public static String formatToString(AudioFormat format)
+        {
+            String formatText;
+
+            switch (format)
+            {
+                case AudioFormat.FLAC:
+                    formatText = "flac";
+                    break;
+                case AudioFormat.MP3:
+                    formatText = "mp3";
+                    break;
+                case AudioFormat.XMA4:
+                    formatText = "xma4";
+                    break;
+                case AudioFormat.PCMS16:
+                    formatText = "pcms16";
+                    break;
+                default:
+                    throw new ArgumentException("Invalid input format");
+            }
+
+            return formatText;
+        }
     }
 }

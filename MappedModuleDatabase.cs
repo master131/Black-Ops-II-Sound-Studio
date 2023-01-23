@@ -28,7 +28,7 @@ namespace BlackOps2SoundStudio
         {
             ModuleHandle = LoadLibrary(path);
             if (ModuleHandle == IntPtr.Zero)
-                throw new DllNotFoundException(path);
+                throw new DllNotFoundException("Couldn't find " + path);
         }
 
         public IntPtr GetProcAddress(string procName)
