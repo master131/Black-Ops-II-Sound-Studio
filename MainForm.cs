@@ -24,7 +24,7 @@ namespace BlackOps2SoundStudio
         private DataGridViewRow _lastSelectedRow;
         private int _currentPlayIndex = -1;
         private string _currentPath;
-        private Boolean skipConversion = true;
+        private Boolean skipConversion = false;
 
         private WaveFileReader _wavFileReader;
         private Mp3FileReader _mp3FileReader;
@@ -173,7 +173,8 @@ namespace BlackOps2SoundStudio
                     entry.Loop,
                     entry.ChannelCount,
                     FormatSampleRate(entry.SampleRate),
-                    BitConverter.ToString(_sndAliasBank.Checksums[i]).Replace("-", ""));
+                    BitConverter.ToString(_sndAliasBank.Checksums[i]).Replace("-", ""),
+                    entry.replaced);
                 row.ContextMenuStrip = audioEntryContextMenuStrip;
                 row.Tag = entry;
                 rows[i] = row;
@@ -568,12 +569,16 @@ namespace BlackOps2SoundStudio
             }
 
             entry.Data = new AudioDataStream(newData, (int)newData.Length);
+            entry.replaced = true;
 
             foreach (DataGridViewRow row in audioEntriesDataGridView.Rows)
             {
                 if (row.Tag != entry) continue;
                 foreach (DataGridViewCell cell in row.Cells)
+                {
                     cell.Style.BackColor = Color.LightBlue;
+                }
+                row.Cells[audioEntryReplacedColumn.Index].Value = entry.replaced;
                 MessageBox.Show("Audio data has been successfully replaced.",
                                 "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 break;
@@ -606,7 +611,7 @@ namespace BlackOps2SoundStudio
                     }
                     if (inputChannels != entry.ChannelCount)
                     {
-                        MessageBox.Show("Input audio file has a different channel count than the target audio. Disable Skip Conversion conversion or convert it manually.",
+                        MessageBox.Show("Input audio file has a different channel count than the target audio. Disable Skip Conversion or convert it manually.",
                                     "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -1246,12 +1251,15 @@ namespace BlackOps2SoundStudio
             }
 
             entry.Data = new AudioDataStream(newData, (int)newData.Length);
+            entry.replaced = true; 
 
             foreach (DataGridViewRow row in audioEntriesDataGridView.Rows)
             {
                 if (row.Tag != entry) continue;
                 foreach (DataGridViewCell cell in row.Cells)
                     cell.Style.BackColor = Color.LightBlue;
+                row.Cells[audioEntryReplacedColumn.Index].Value = entry.replaced;
+
                 //MessageBox.Show("Audio data has been successfully replaced.",
                 //                "Black Ops II Sound Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 break;

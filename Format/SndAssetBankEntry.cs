@@ -48,6 +48,7 @@ namespace BlackOps2SoundStudio.Format
         public bool Loop { get; set; }
         public AudioFormat Format { get; set; }
         public IAudioData Data { get; set; }
+        public Boolean replaced { get; set; }
 
         public virtual int SampleRate { get; set; }
 
