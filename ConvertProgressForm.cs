@@ -35,8 +35,9 @@ namespace BlackOps2SoundStudio
                 else
                     conversionLabel.Text = "Converting " + Path.GetFileName(args.Source) + " to " + targetFormat + "... ";
 
-                conversionLabel.Text += args.Progress + "%";
-                conversionProgressBar.Value = args.Progress;
+                int progress = args.Progress > 100 ? 100 : args.Progress;
+                conversionLabel.Text += progress + "%";
+                conversionProgressBar.Value = progress;
             };
 
             _convertHelper.ConversionCompleted += (sender, args) =>

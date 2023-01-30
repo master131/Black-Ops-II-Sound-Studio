@@ -79,18 +79,21 @@ namespace Black_Ops_II_Sound_Studio_Extended
 
         private async void startButton_Click(object sender, EventArgs e)
         {
-            // retrieve attributes for matching and replacing
+            // retrieve options for matching and replacing
             stopWhenNoMatch = this.stopWhenNoMatchCheckBox.Checked;
             stopWhenReplaceFails = this.stopWhenReplaceFailsComboBox.Checked;
             applyDupFix = this.dupFixCheckBox.Checked;
             adaptFileNames = this.adaptNamesCheckBox.Checked;
 
+            // check if a folder was selected
             path = this.folderTextBox.Text;
             if (String.IsNullOrEmpty(path.Trim()))
             {
                 MessageBox.Show("Choose a folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            // retrieve audio files
             IEnumerable<string> files = Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories);
             int filesCount = files.Count();
             if (filesCount == 0)
@@ -99,12 +102,15 @@ namespace Black_Ops_II_Sound_Studio_Extended
                 return;
             }
 
+            // check if the source platform was selected
             if (adaptFileNames && (this.sourceComboBox.SelectedItem == null))
             {
                 MessageBox.Show("Choose a source platform.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            } else
+            } 
+            else
             {
+                // adapt to internal naming
                 source = this.sourceComboBox.SelectedItem as string;
                 switch (source)
                 {
@@ -117,13 +123,14 @@ namespace Black_Ops_II_Sound_Studio_Extended
                 }
             }
 
-
+            // check if the target platform was selected
             if (adaptFileNames && (this.targetComboBox.SelectedItem == null))
             {
                 MessageBox.Show("Choose a target platform.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             } else
             {
+                // adapt to internal naming
                 target = this.targetComboBox.SelectedItem as string;
                 switch (target)
                 {
@@ -174,6 +181,8 @@ namespace Black_Ops_II_Sound_Studio_Extended
 
             // disable start button until all process is finished
             startButton.Enabled = false;
+
+            // init replacing process
             try
             {
                 replaceTask = Task.Run(() => mainForm.startReplaceAll(this), token);
